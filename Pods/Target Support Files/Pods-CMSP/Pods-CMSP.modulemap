@@ -1,0 +1,6 @@
+framework module Pods_CMSP {
+  umbrella header "Pods-CMSP-umbrella.h"
+
+  export *
+  module * { export * }
+}

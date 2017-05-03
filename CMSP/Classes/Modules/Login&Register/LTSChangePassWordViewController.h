@@ -1,0 +1,13 @@
+//
+//  LTSChangePassWordViewController.h
+//  CMSP
+//
+//  Created by 刘刚 on 17/4/13.
+//  Copyright © 2017年 李棠松. All rights reserved.
+//
+
+#import "LTSBaseViewController.h"
+
+@interface LTSChangePassWordViewController : LTSBaseViewController
+
+@end

@@ -1,0 +1,55 @@
+//
+//  PrefixHeader.pch
+//  CMSP
+//
+//  Created by 李棠松 on 2016/11/30.
+//  Copyright © 2016年 李棠松. All rights reserved.
+//
+
+#ifndef PrefixHeader_pch
+#define PrefixHeader_pch
+#import <Masonry/Masonry.h>
+#import <MJExtension/MJExtension.h>
+#import <AFNetworking/AFNetworking.h>
+#import <IQKeyboardManager/IQKeyboardManager.h>
+#import <ReactiveCocoa/ReactiveCocoa.h>
+
+#import "LTSDBClickManager.h"
+
+#import "LTSMacros.h"
+#import "Const.h"
+#import "LTSAppDelegate.h"
+#import "TextChecker.h"
+#import "MMActivityHub.h"
+#import "StringConst.h"
+#import "SettingView.h"
+#import "LTSBaseNavigationController.h"
+#import "LTSCustomButton.h"
+
+#import "UIViewController+HUD.h"
+#import "UIColor+Common.h"
+#import "UIImage+Common.h"
+#import "UITextField+Common.h"
+#import "UIButton+Style.h"
+#import "UIView+Common.h"
+#import "NSString+Common.h"
+
+
+#define Scale Screen_Width/375
+#define LTSUserDes    [LTSUser userFromData:[LTSUserDefault valueForKey:KPath_UserDes]]
+/**用户单例*/
+#define LTSUserDefault  [NSUserDefaults standardUserDefaults]
+#define   LTSNotification    [NSNotificationCenter defaultCenter]
+#define LTSAppDelegated ((LTSAppDelegate *)[UIApplication sharedApplication].delegate)
+
+/**数据请求管理类*/
+#define LTSDBManager [LTSDBClickManager sharedManager]
+/**获取验证码*/
+#define   kLTSDBGetVerifyCode    @"customUserConfig!getVerifyCode.action"
+
+//屏幕宽高
+#define SCREEN_W (self.view.bounds.size.width)
+#define SCREEN_H (self.view.bounds.size.height)
+
+
+#endif /* PrefixHeader_pch */
