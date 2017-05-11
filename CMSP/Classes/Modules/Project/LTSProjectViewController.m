@@ -138,6 +138,7 @@
    
 }
 
+//加载结束后调用
 - (void)webView:(WKWebView *)webView didFinishNavigation:(WKNavigation *)navigation{
     [webView.scrollView endActLoading];
     //     topView.hidden = NO;

@@ -225,6 +225,7 @@
                 _model.id_kind = self.tf_title.text;
             }
         }
+        
         if ([self.leftTitle isEqualToString:@"证件号码"]) {
             if (!self.tf_title.text.length) {
                 _model.org_code = @"未设置";
@@ -256,10 +257,10 @@
         NSString *logName = [LTSUserDefault objectForKey:@"logName"];
 
         [LTSDBManager.requestSerializer setValue:@"application/x-www-form-urlencoded; charset=utf-8" forHTTPHeaderField:@"Content-Type"];
-        NSString *real_name = [_model.real_name stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-        NSString *comany_name = [_model.company_name stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+//        NSString *real_name = [_model.real_name stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+//        NSString *comany_name = [_model.company_name stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
 
-        [LTSDBManager POST:[kLTSDBBaseUrl stringByAppendingString:KLTSDBChangeUserInfo] params:@{@"logName":logName,@"login_user_type":login_user_type,@"id_kind":_model.id_kind,@"company_name":comany_name,@"org_code":_model.org_code,@"real_name":real_name,@"mobile_phone":_model.mobile_phone,} block:^(id responseObject, NSError *error) {
+        [LTSDBManager POST:[kLTSDBBaseUrl stringByAppendingString:KLTSDBChangeUserInfo] params:@{@"logName":logName,@"login_user_type":login_user_type,@"id_kind":_model.id_kind,@"company_name":_model.company_name,@"org_code":_model.org_code,@"real_name":_model.real_name,@"mobile_phone":_model.mobile_phone,} block:^(id responseObject, NSError *error) {
             if (responseObject[@"result"]) {
                 NSLog(@"修改用户信息成功");
                 [self.navigationController popViewControllerAnimated:YES];
@@ -271,9 +272,6 @@
         }];
 
     }
-    
-    
-    
 }
 
 //- (void)click{

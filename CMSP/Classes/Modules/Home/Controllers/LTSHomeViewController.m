@@ -27,6 +27,7 @@
 {
     [super viewWillAppear:YES];
     self.tabBarController.tabBar.hidden = NO;
+    self.navigationController.navigationBar.hidden = YES;
 }
 
 - (void)viewDidLoad {
@@ -99,7 +100,7 @@
     
     NSArray *images = @[@"icon_zaidanbao",@"icon_zhibaorz",@"icon_zhibaofrz",@"icon_danbaotixi"];
     NSArray *titles = @[@"再担保",@"直保融资",@"直保非融资",@"担保体系"];
-    NSArray *urls = @[@"R",@"F",@"R",@""];
+    NSArray *urls = @[@"R",@"F",@"N",@""];
     
     UIView *contentView = [UIView new];
     [self.view addSubview:contentView];

@@ -25,7 +25,7 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     
-    //停留2s再进主界面---启动页
+    //停留1s再进主界面---启动页
     [NSThread sleepForTimeInterval:1.0];
     
      [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];

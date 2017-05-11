@@ -13,6 +13,7 @@
 //http://192.168.2.117:8080  测试库
 
 #define kLTSDBBaseUrl  @"http://oss.utrustfrg.com:11801/accountPlatform/"
+//#define kLTSDBBaseUrl  @"http://192.168.2.117:8080/accountPlatform/"
 
 
 #pragma mark  ---- 登录 ----

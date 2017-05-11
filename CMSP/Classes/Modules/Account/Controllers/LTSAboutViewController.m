@@ -13,15 +13,17 @@
 @property (nonatomic,strong)UITableView *tableView;
 /**数据源*/
 @property (nonatomic,strong) NSArray *dataSource;
+@property (nonatomic,strong) UIButton *backBtn;
 
 
 @end
 
 @implementation LTSAboutViewController
 //隐藏tabBar
--(void)viewDidAppear:(BOOL)animated
-{
+-(void)viewWillAppear:(BOOL)animated
+{   [super viewWillAppear:YES];
     self.tabBarController.tabBar.hidden = YES;
+    self.navigationController.navigationBar.hidden = YES;
 }
 
 - (void)viewDidLoad {
@@ -61,8 +63,27 @@
     //隐藏多余的cell分割线
     [_tableView setTableFooterView:[[UIView alloc] initWithFrame:CGRectZero]];
 
-    
+//    [self initNavBar];
 }
+
+//-(void)initNavBar
+//{
+//    _backBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+//    _backBtn.frame = CGRectMake(10, 20, 20, 20);
+//    [_backBtn setImage:[UIImage imageNamed:@"icon_nav_back"] forState:UIControlStateNormal];
+//    [_backBtn addTarget:self action:@selector(back:) forControlEvents:UIControlEventTouchUpInside];
+//    
+//    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:_backBtn];
+//}
+//
+//-(void)back:(UIButton *)btn
+//{
+////        [self.view resignFirstResponder];
+//        [self.navigationController popViewControllerAnimated:YES];
+//    
+//    
+//}
+//
 
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {

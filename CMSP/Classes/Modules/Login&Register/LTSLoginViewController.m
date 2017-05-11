@@ -13,6 +13,8 @@
 #import "LTSAlertSheetView.h"
 #import "UIColor+Common.h"
 #import "LTSChangePassWordViewController.h"
+#import "UIViewController+HUD.h"
+#import "LTSLogTypeTransition.h"
 @interface LTSLoginViewController ()
 
 @property (nonatomic,strong)UIScrollView *scrollView;
@@ -102,7 +104,18 @@
         topImageView.frame = CGRectMake(0, 0, Screen_Width, 275);
     }
     
+    //覆盖的透明view
+    UIView *coverView = [UIView new];
+    coverView.backgroundColor = [UIColor whiteColor];
+    coverView.alpha = 0.5;
+    [topView addSubview:coverView];
+    coverView.userInteractionEnabled = YES;
+    [coverView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.right.bottom.mas_equalTo(topView);
+        make.height.mas_equalTo(44);
+    }];
 
+    
     //关闭登录页面
     UIButton *closeButton = [UIButton new];
     self.closeButton = closeButton;
@@ -126,11 +139,13 @@
     self.personalBtn = ({UIButton  *button = [UIButton new];
         
         [button setTitle:@"个人" forState:UIControlStateNormal];
+        [button setTitleColor:OrangeColor forState:UIControlStateNormal];
         button.titleLabel.font = [UIFont systemFontOfSize:16];
-        [topView addSubview:button];
+        [coverView addSubview:button];
         [button mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.bottom.mas_equalTo(topView);
             make.size.mas_equalTo(CGSizeMake(Screen_Width/3, 44));
+            
         }];
         
         
@@ -140,11 +155,12 @@
     self.PartnersBtn = ({UIButton  *button = [UIButton new];
 
         [button setTitle:@"合作机构" forState:UIControlStateNormal];
+        [button setTitleColor:OrangeColor forState:UIControlStateNormal];
         button.titleLabel.font = [UIFont systemFontOfSize:16];
-        [topView addSubview:button];
+        [coverView addSubview:button];
         [button mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.mas_equalTo(self.personalBtn.mas_right);
-            make.bottom.mas_equalTo(0);
+            make.bottom.mas_equalTo(topView);
             make.size.mas_equalTo(CGSizeMake(Screen_Width/3, 44));
         }];
         
@@ -155,15 +171,17 @@
     self.enterpriseBtn = ({UIButton  *button = [UIButton new];
         
         [button setTitle:@"企业" forState:UIControlStateNormal];
+        [button setTitleColor:OrangeColor forState:UIControlStateNormal];
         button.titleLabel.font = [UIFont systemFontOfSize:16];
-        [topView addSubview:button];
+        [coverView addSubview:button];
         [button mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.right.bottom.mas_equalTo(0);
+            make.right.bottom.mas_equalTo(topView);
             make.size.mas_equalTo(CGSizeMake(Screen_Width/3, 44));
         }];
         
         
         button;});
+   
     
     
     //登录类型的选择箭头图片
@@ -386,6 +404,8 @@
     
     [[self.loginBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
        @strongify(self)
+        [self showHudInView:self.view hint:@"正在登录"];
+
         
 //        if (![TextChecker isValidateUserName:self.user_tf.text]) {
 //            [ActivityHub ShowHub:KWork_UserNameIllegal];
@@ -418,10 +438,11 @@
         }else{
             self.userLoginType = @"-7";//合作机构
         }
-        
+
         [LTSDBManager POST:[kLTSDBBaseUrl stringByAppendingString:kLTSDBLogin] params:@{@"auth_login_acct":self.userLoginType,@"logName":self.user_tf.text,@"password":self.password_tf.text} block:^(id responseObject, NSError *error) {
             if (responseObject[@"result"]) {
-                NSLog(@"登录成功!");
+                [self showSuccessInView:self.view hint:@"登录成功"];
+                NSLog(@"responseObject:%@",responseObject);
                 //页面一直持有这个票据
                 NSLog(@"账户类型:%@",self.userLoginType);
                 NSLog(@"票据:%@", responseObject[@"data"]);
@@ -441,9 +462,34 @@
                 [LTSUserDefault setBool:YES forKey:KPath_UserLoginState];
                 LTSTabBarController *tabbar = [LTSTabBarController new];
                 LTSAppDelegated.window.rootViewController = tabbar;
+                
+                //转换登录用户类型
+                NSString *login_user_type = [LTSLogTypeTransition logTypeTransition];
+                
+                //获取用户详情
+                //    [LTSDBManager.requestSerializer setValue:@"application/x-www-form-urlencoded; charset=utf-8" forHTTPHeaderField:@"Content-Type"];
+                if ([LTSUserDefault objectForKey:Login_Token]) {
+                    [LTSDBManager POST:[kLTSDBBaseUrl stringByAppendingString:KLTSDBGainUserInfo] params:@{@"login_user_type":login_user_type,@"logName":[LTSUserDefault objectForKey:@"logName"]} block:^(id responseObject, NSError *error) {
+                        if (responseObject[@"result"]) {
+                            NSLog(@"获取用户详情成功");
+                            
+                            NSLog(@"responseObject：%@",responseObject);
+                            
+                            [LTSUserDefault setObject:responseObject[@"data"][@"cif_account"] forKey:@"cif_account"];
+                            
+                            
+                            
+                        }else{
+                            
+                            NSLog(@"获取详情失败");
+                        }
+                    }];
+                    
+                }
+
 
             }else{
-                NSLog(@"%@",responseObject[@"msg"]);
+                [self showErrorInView:self.view hint:responseObject[@"msg"]];
             }
 
         }];

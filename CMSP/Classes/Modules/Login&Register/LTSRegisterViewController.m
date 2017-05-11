@@ -40,7 +40,7 @@
     [self addChildViewController:personal];
     [self addChildViewController:partner];
     [self addChildViewController:enterprise];
-    [self.segmentView configViewControllers:@[partner,enterprise] titles:@[@"合作机构",@"企业"]];
+    [self.segmentView configViewControllers:@[personal,partner,enterprise] titles:@[@"个人",@"合作机构",@"企业"]];
 }
 
 - (void)didReceiveMemoryWarning {

@@ -46,6 +46,8 @@
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear: animated];
+    self.navigationController.navigationBar.hidden = NO;
+
     //马上进入刷新状态
 //    [self.tableView.mj_header beginRefreshing];
 }

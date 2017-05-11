@@ -32,6 +32,7 @@
 {
     [super viewDidAppear: YES];
     self.tabBarController.tabBar.hidden = YES;
+    self.navigationController.navigationBar.hidden = NO;
 }
 
 - (void)viewDidLoad {
@@ -134,9 +135,9 @@
     [webView.scrollView endActLoading];
 //     topView.hidden = NO;
 //    [self.navigationController setNavigationBarHidden:YES animated:NO];
-    [_webView mas_remakeConstraints:^(MASConstraintMaker *make) {
-        make.edges.equalTo(self.view).with.insets(UIEdgeInsetsMake(0, 0, 0, 0));
-    }];
+//    [_webView mas_remakeConstraints:^(MASConstraintMaker *make) {
+//        make.edges.equalTo(self.view).with.insets(UIEdgeInsetsMake(0, 0, 0, 0));
+//    }];
     
 //    [webView evaluateJavaScript:@"document.getElementsByClassName('topTitle')[0].style.webkitTextSizeAdjust= '100%'" completionHandler:nil];
     
@@ -173,7 +174,7 @@
         configuration.userContentController = [[WKUserContentController alloc]init];
         
         _webView = [[WKWebView alloc]initWithFrame:self.view.bounds configuration:configuration];
-        
+//        _webView.frame = CGRectMake(0, 64, WIDTH(self.view), HEIGHT(self.view)-64);
         _webView.UIDelegate = self;
         _webView.navigationDelegate = self;
         _webView.scrollView.bounces = NO;
@@ -185,7 +186,7 @@
         _webView.userInteractionEnabled=YES;
         
         [_webView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.edges.equalTo(self.view).with.insets(UIEdgeInsetsMake(0, 0, 0, 0));
+            make.edges.equalTo(self.view).with.insets(UIEdgeInsetsMake(64, 0, 0, 0));
         }];
     }
     return _webView;

@@ -167,7 +167,6 @@
 //            }
             [[NSNotificationCenter defaultCenter] postNotificationName:@"partner" object:nil];
             NSLog(@"发送通知成功");
-//            [[NSNotificationCenter defaultCenter] postNotificationName:@"company" object:nil];
 
         }
     }

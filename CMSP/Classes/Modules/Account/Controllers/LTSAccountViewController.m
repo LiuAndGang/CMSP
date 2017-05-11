@@ -46,9 +46,10 @@
     return _userInfoDic;
 }
 
--(void)viewDidAppear:(BOOL)animated
+-(void)viewWillAppear:(BOOL)animated
 {
     self.tabBarController.tabBar.hidden = NO;
+    self.navigationController.navigationBar.hidden = YES;
 }
 
 
