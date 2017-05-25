@@ -8,7 +8,7 @@
 
 #import "LTSAboutViewController.h"
 #import "LTSBaseWebViewControlle.h"
-
+#import "LTSCompanyIntroduceViewController.h"
 @interface LTSAboutViewController ()<UITableViewDelegate,UITableViewDataSource>
 @property (nonatomic,strong)UITableView *tableView;
 /**数据源*/
@@ -23,7 +23,7 @@
 -(void)viewWillAppear:(BOOL)animated
 {   [super viewWillAppear:YES];
     self.tabBarController.tabBar.hidden = YES;
-    self.navigationController.navigationBar.hidden = YES;
+    self.navigationController.navigationBar.hidden = NO;
 }
 
 - (void)viewDidLoad {
@@ -33,13 +33,13 @@
 }
 -(void)initData
 {
-    _dataSource = @[@"公司介绍",@"客服热线"];
+    _dataSource = @[@"公司介绍",@"版本检测",@"客服热线"];
 }
 
 
 - (void)initUI{
     
-    UIImageView *imageView = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"icon_about_logo"]];
+    UIImageView *imageView = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"about.jpg"]];
     imageView.contentMode = UIViewContentModeCenter;
     [self.view addSubview:imageView];
     [imageView mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -63,27 +63,27 @@
     //隐藏多余的cell分割线
     [_tableView setTableFooterView:[[UIView alloc] initWithFrame:CGRectZero]];
 
-//    [self initNavBar];
+    [self initNavBar];
 }
 
-//-(void)initNavBar
-//{
-//    _backBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-//    _backBtn.frame = CGRectMake(10, 20, 20, 20);
-//    [_backBtn setImage:[UIImage imageNamed:@"icon_nav_back"] forState:UIControlStateNormal];
-//    [_backBtn addTarget:self action:@selector(back:) forControlEvents:UIControlEventTouchUpInside];
-//    
-//    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:_backBtn];
-//}
-//
-//-(void)back:(UIButton *)btn
-//{
-////        [self.view resignFirstResponder];
-//        [self.navigationController popViewControllerAnimated:YES];
-//    
-//    
-//}
-//
+-(void)initNavBar
+{
+    _backBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    _backBtn.frame = CGRectMake(10, 20, 20, 20);
+    [_backBtn setImage:[UIImage imageNamed:@"icon_nav_back"] forState:UIControlStateNormal];
+    [_backBtn addTarget:self action:@selector(back:) forControlEvents:UIControlEventTouchUpInside];
+    
+    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:_backBtn];
+}
+
+-(void)back:(UIButton *)btn
+{
+//        [self.view resignFirstResponder];
+        [self.navigationController popViewControllerAnimated:YES];
+    
+    
+}
+
 
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
@@ -109,8 +109,13 @@
     cell.textLabel.textColor = HexColor(@"#676769");
     cell.textLabel.font = [UIFont systemFontOfSize:15];
     if ([cell.textLabel.text isEqualToString:@"客服热线"]) {
-        cell.detailTextLabel.text = @"020-5255823";
+        cell.detailTextLabel.text = @"020-83063218";
         cell.detailTextLabel.textColor = HexColor(@"#00b0ec");
+    }
+    if ([cell.textLabel.text isEqualToString:@"版本检测"]) {
+        NSDictionary *infoDictionary = [[NSBundle mainBundle] infoDictionary];
+        cell.detailTextLabel.text = infoDictionary[@"CFBundleShortVersionString"];
+        [LTSUserDefault setObject:infoDictionary[@"CFBundleShortVersionString"] forKey:@"CFBundleShortVersionString"];
     }
     return cell;
 }
@@ -127,16 +132,63 @@
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     UITableViewCell * cell = [tableView cellForRowAtIndexPath:indexPath];
     if ([cell.textLabel.text isEqualToString:@"客服热线"]) {
-        NSMutableString * str=[[NSMutableString alloc] initWithFormat:@"tel:%@",@"020-5255823"];
+        NSMutableString * str=[[NSMutableString alloc] initWithFormat:@"tel:%@",@"020-83063218"];
         UIWebView * callWebview = [[UIWebView alloc] init];
         [callWebview loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:str]]];
         [self.view addSubview:callWebview];
     
     }
     if ([cell.textLabel.text isEqualToString:@"公司介绍"]) {
-        LTSBaseWebViewControlle *detailVc = [LTSBaseWebViewControlle new];
-        detailVc.url = [NSURL URLWithString:[kLTSDBBaseUrl stringByAppendingString:KLTSDBComponyIntro]];
-        [self.navigationController pushViewController:detailVc animated:YES];
+        LTSCompanyIntroduceViewController *companyVc = [LTSCompanyIntroduceViewController new];
+        companyVc.stringHtml =[kLTSDBBaseUrl stringByAppendingString:KLTSDBComponyIntro];
+        [self.navigationController pushViewController:companyVc animated:YES];
+    }
+    if ([cell.textLabel.text isEqualToString:@"版本检测"]) {
+        [LTSDBManager POST:@"https://itunes.apple.com/lookup?id=1229576389" params:nil block:^(id responseObject, NSError *error) {
+            if (responseObject[@"results"]) {
+                NSArray *array = responseObject[@"results"];
+                
+                if (array.count != 0) {
+                    NSDictionary *dict = array[0];
+                    //去掉“.”小数点进行版本比较
+                    NSString *storeVersion = [dict[@"version"] stringByReplacingOccurrencesOfString:@"." withString:@""];
+                    NSString *currentVersion = [[LTSUserDefault objectForKey:@"CFBundleShortVersionString"] stringByReplacingOccurrencesOfString:@"." withString:@""];
+                    //判断 当前版本号 和 App store版本号的大小
+                    if (storeVersion.integerValue > currentVersion.integerValue) {
+                        
+                        UIAlertController *alertVc = [UIAlertController alertControllerWithTitle:@"提示" message:@"发现新版本，是否前往更新?" preferredStyle:UIAlertControllerStyleAlert];
+                        UIAlertAction *sure = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+                            NSString *urlString = @"https://itunes.apple.com/cn/app/客户营销系统/id1229576389?mt=8";
+                            NSString *encodString = [urlString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+                            
+                            NSURL *url = [NSURL URLWithString:encodString];
+                            if ([[UIApplication sharedApplication] canOpenURL:url]) {
+                               [[UIApplication sharedApplication] openURL:url];
+                            }
+                            
+                            
+                        }];
+                        UIAlertAction *cancel = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+                            
+                        }];
+                        [alertVc addAction:sure];
+                        [alertVc addAction:cancel];
+                        [self presentViewController:alertVc animated:YES completion:nil];
+                        
+                        
+                        
+//                        NSLog(@"Appstore：%ld",storeVersion.integerValue);
+//                        NSLog(@"currentVersion：%ld", currentVersion.integerValue);
+                        
+                    }else{
+//                        NSLog(@"currentVersion：%ld", currentVersion.integerValue);
+                        
+                        [ActivityHub ShowHub:@"当前已是最新版本"];
+                    }
+
+                }
+            }
+        }];
     }
     
 };

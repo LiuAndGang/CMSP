@@ -9,9 +9,10 @@
 #import "LTSHomeViewController.h"
 #import "LTSBaseWebViewControlle.h"
 #import "SDCycleScrollView.h"
-
+#import "LTSCompanyNewsCell.h"
+#import "LTSNewsAndNoticeModel.h"
 #define CycleScrollViewHeight (Screen_Width * (204 / 375.0))
-@interface LTSHomeViewController ()<SDCycleScrollViewDelegate>
+@interface LTSHomeViewController ()<SDCycleScrollViewDelegate,UITableViewDelegate,UITableViewDataSource>
 @property (nonatomic,strong)UIScrollView *scrollView;
 
 @property (nonatomic,strong)SDCycleScrollView *cycleScrollView;
@@ -19,9 +20,48 @@
 @property (nonatomic,strong)UIButton *businessBtn;
 /**经典案例*/
 @property (nonatomic,strong)UIButton *exampleBtn;
+/**表格*/
+@property (nonatomic,strong) UITableView *tableView;
+/**公告内容label*/
+@property (nonatomic,strong) UILabel *noticeContentLabel;
+/**消息内容label*/
+@property (nonatomic,strong) UILabel *messageContentLabel;
+//页
+@property(nonatomic,assign)NSInteger page;
+//行
+@property(nonatomic,assign)NSInteger rows;
+/**公告数据数组*/
+@property (nonatomic,strong) NSMutableArray *noticeDatas;
+/**消息数据数组*/
+@property (nonatomic,strong) NSMutableArray *messageDatas;
+/**总数据数组*/
+@property (nonatomic,strong) NSMutableArray *datas;
 @end
 
 @implementation LTSHomeViewController
+
+-(NSMutableArray *)noticeDatas
+{
+    if (!_noticeDatas) {
+        _noticeDatas  = [[NSMutableArray alloc] init];
+    }
+    return _noticeDatas;
+}
+-(NSMutableArray *)messageDatas
+{
+    if (!_messageDatas) {
+        _messageDatas  = [[NSMutableArray alloc] init];
+    }
+    return _messageDatas;
+}
+-(NSMutableArray *)datas
+{
+    if (!_datas) {
+        _datas  = [[NSMutableArray alloc] init];
+    }
+    return _datas;
+}
+
 
 -(void)viewWillAppear:(BOOL)animated
 {
@@ -33,7 +73,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-  
+    
 //       [[button rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
 //        @strongify(self)
 //        LTSBaseWebViewControlle *webView = [LTSBaseWebViewControlle new];
@@ -42,13 +82,69 @@
 //
 //    }];
         // Do any additional setup after loading the view.
+    
+    
+    
 }
+
+
+
+-(void)initData{
+    _page = 0;
+    _rows = 4;
+    [LTSDBManager POST:[kLTSDBBaseUrl stringByAppendingString:KLTSDBNewsAndNotice] params:@{@"type":@"C",@"page":[NSNumber numberWithInteger:_page],@"rows":[NSNumber numberWithInteger:_rows]} block:^(id responseObject, NSError *error) {
+        if(responseObject) {
+            NSLog(@"responseObject:%@",responseObject);
+            NSArray *tempArray = responseObject[@"rows"];
+            for (NSDictionary *dict in tempArray) {
+                LTSNewsAndNoticeModel *model = [LTSNewsAndNoticeModel modelWithDict:dict];
+                [self.noticeDatas addObject:model];
+                [_datas addObject:model];
+            }
+            [_tableView reloadData];
+            LTSNewsAndNoticeModel *model = _noticeDatas[0];
+            //去掉左右两边的空格和换行符
+            _noticeContentLabel.text = [model.mainTitle stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+            NSLog(@"noticeData数组数量：%ld",self.noticeDatas.count);
+        }else{
+            NSLog(@"error:%@",error);
+        }
+    }];
+    
+    [LTSDBManager POST:[kLTSDBBaseUrl stringByAppendingString:KLTSDBNewsAndNotice] params:@{@"type":@"N",@"page":[NSNumber numberWithInteger:_page],@"rows":[NSNumber numberWithInteger:_rows]} block:^(id responseObject, NSError *error) {
+        if(responseObject) {
+            NSLog(@"responseObject:%@",responseObject);
+            NSArray *tempArray = responseObject[@"rows"];
+            for (NSDictionary *dict in tempArray) {
+                LTSNewsAndNoticeModel *model = [LTSNewsAndNoticeModel modelWithDict:dict];
+                [self.messageDatas addObject:model];
+                [_datas addObject:model];
+            }
+            [_tableView reloadData];
+            LTSNewsAndNoticeModel *model = _messageDatas[0];
+            //去掉左右两边的空格和换行符
+            _messageContentLabel.text = [model.mainTitle stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+
+            NSLog(@"messageData数组数量：%ld",self.messageDatas.count);
+            NSLog(@"data数组数量：%ld",self.datas.count);
+        }else{
+            NSLog(@"error:%@",error);
+        }
+    }];
+
+}
+
 - (void)initUI{
-    self.scrollView = [[UIScrollView alloc]initWithFrame:self.view.bounds];
-    [self.view addSubview:self.scrollView];
+//    self.scrollView = [[UIScrollView alloc]initWithFrame:self.view.bounds];
+//    [self.view addSubview:self.scrollView];
+    
+    UIView *baseView = [[UIView alloc] init];
+    baseView.backgroundColor = lineBGColor;
+    baseView.frame = CGRectMake(0, 0, SCREEN_W, CycleScrollViewHeight+44+10*3+100+44*2);
+    [self.view addSubview:baseView];
     
     SDCycleScrollView *cycleScrollView = [SDCycleScrollView cycleScrollViewWithFrame:CGRectMake(0, 0, Screen_Width, CycleScrollViewHeight) delegate:self placeholderImage:[UIImage imageNamed:@""]];
-    [self.view addSubview:cycleScrollView];
+    [baseView addSubview:cycleScrollView];
     cycleScrollView.localizationImageNamesGroup = @[@"home_pic_1.jpg",@"home_pic_2.jpg",@"home_pic_3.jpg",@"home_pic_4.jpg"];
     self.cycleScrollView = cycleScrollView;
     
@@ -57,7 +153,7 @@
         [button setTitle:@"业务介绍" forState:UIControlStateNormal];
         [button setTitleColor:DarkText forState:UIControlStateNormal];
         button.titleLabel.font =[UIFont systemFontOfSize:16];
-        [self.view addSubview:button];
+        [baseView addSubview:button];
         button.backgroundColor = [UIColor whiteColor];
         [button mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.mas_equalTo(0);
@@ -72,7 +168,7 @@
         [button setTitle:@"经典案例" forState:UIControlStateNormal];
         [button setTitleColor:DarkText forState:UIControlStateNormal];
         button.titleLabel.font =[UIFont systemFontOfSize:16];
-        [self.view addSubview:button];
+        [baseView addSubview:button];
         button.backgroundColor = [UIColor whiteColor];
         [button mas_makeConstraints:^(MASConstraintMaker *make) {
             make.right.mas_equalTo(0);
@@ -88,11 +184,11 @@
     {
         UIView *line = [UIView new];
         line.backgroundColor = lineBGColor;
-        [self.view addSubview:line];
+        [baseView addSubview:line];
         [line mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.centerX.mas_equalTo(self.view.mas_centerX);
+            make.centerX.mas_equalTo(baseView.mas_centerX);
             make.top.mas_equalTo(self.cycleScrollView.mas_bottom).with.offset(0);
-            make.width.mas_equalTo(0.5);
+            make.width.mas_equalTo(1);
             make.height.mas_equalTo(44);
         }];
     }
@@ -103,10 +199,10 @@
     NSArray *urls = @[@"R",@"F",@"N",@""];
     
     UIView *contentView = [UIView new];
-    [self.view addSubview:contentView];
+    [baseView addSubview:contentView];
     contentView.backgroundColor = [UIColor whiteColor];
     [contentView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(self.businessBtn.mas_bottom).with.offset(15);
+        make.top.mas_equalTo(self.businessBtn.mas_bottom).with.offset(10);
         make.right.left.mas_equalTo(0);
         make.height.mas_equalTo(100);
     }];
@@ -124,7 +220,7 @@
         [[button rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
             @strongify(self)
             
-            NSURL *url = [NSURL URLWithString:[[kLTSDBBaseUrl stringByAppendingString:kLTSDBCoreBusiness] stringByAppendingFormat:@"?productCode=%@",urls[i]]];
+            NSURL *url = [NSURL URLWithString:[[[kLTSDBBaseUrl stringByAppendingString:kLTSDBCoreBusiness] stringByAppendingFormat:@"?productCode=%@",urls[i]] stringByAppendingFormat:@"&cif_account=%@",[LTSUserDefault objectForKey:@"cif_account"]]];
             LTSBaseWebViewControlle *webView = [LTSBaseWebViewControlle new];
             webView.url = url;
 
@@ -146,9 +242,216 @@
         }
     }
     
+    //公告
+    UIView *noticeView = [[UIView alloc] init];
+    noticeView.backgroundColor = [UIColor whiteColor];
+    [baseView addSubview:noticeView];
+    [noticeView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.mas_equalTo(contentView.mas_bottom).with.offset(10);
+        make.width.mas_equalTo(SCREEN_W);
+        make.height.mas_equalTo(44);
+    }];
+    UIImageView *noticeImageView = [[UIImageView alloc] init];
+    noticeImageView.image = [UIImage imageNamed:@"icon_notice"];
+    [noticeView addSubview:noticeImageView];
+    [noticeImageView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerY.mas_equalTo(noticeView);
+        make.left.mas_equalTo(noticeView).with.offset(12);
+        make.width.mas_equalTo(25);
+        make.height.mas_equalTo(25);
+    }];
+    UIImageView *arrowImage = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"icon_arrow"]];
+    [noticeView addSubview:arrowImage];
+    [arrowImage mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.right.mas_equalTo(noticeView).with.offset(-10);
+        make.centerY.mas_equalTo(noticeView);
+        make.width.mas_equalTo(15);
+        make.height.mas_equalTo(15);
+    }];
+    UILabel *noticeContentLabel = [[UILabel alloc] init];
+    self.noticeContentLabel = noticeContentLabel;
+    [noticeView addSubview:noticeContentLabel];
+    noticeContentLabel.backgroundColor = [UIColor whiteColor];
+    noticeContentLabel.textAlignment = NSTextAlignmentCenter;
+    noticeContentLabel.textColor = HexColor(@"#333333");
+    noticeContentLabel.font = [UIFont systemFontOfSize:14];
+    [noticeContentLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.mas_equalTo(noticeView);
+        make.height.mas_equalTo(noticeView);
+        make.left.mas_equalTo(noticeImageView.mas_right).with.offset(7);
+        make.right.mas_equalTo(arrowImage.mas_left);
+    }];
+    //公告手势
+    UITapGestureRecognizer *noticeTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(noticeTap:)];
+    noticeTap.numberOfTapsRequired = 1;
+    noticeTap.numberOfTouchesRequired = 1;
+    [noticeView addGestureRecognizer:noticeTap];
+    
+    
+    //公告和消息中间那条线
+    {
+        UIView *line2 = [UIView new];
+        line2.backgroundColor = lineBGColor;
+        [baseView addSubview:line2];
+        [line2 mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.centerX.mas_equalTo(self.view.mas_centerX);
+            make.top.mas_equalTo(noticeView.mas_bottom).with.offset(0);
+            make.width.mas_equalTo(SCREEN_W);
+            make.height.mas_equalTo(1);
+        }];
+    }
+    //消息
+    UIView *messageView = [[UIView alloc] init];
+    messageView.backgroundColor = [UIColor whiteColor];
+    [baseView addSubview:messageView];
+    [messageView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.mas_equalTo(noticeView.mas_bottom).with.offset(0.8);
+        make.width.mas_equalTo(SCREEN_W);
+        make.height.mas_equalTo(44);
+    }];
+    UIImageView *messageImageView = [[UIImageView alloc] init];
+    messageImageView.image = [UIImage imageNamed:@"icon_message"];
+    [messageView addSubview:messageImageView];
+    [messageImageView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerY.mas_equalTo(messageView);
+        make.left.mas_equalTo(messageView).with.offset(12);
+        make.width.mas_equalTo(25);
+        make.height.mas_equalTo(25);
+    }];
+    UIImageView *messageArrowImage = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"icon_arrow"]];
+    [messageView addSubview:messageArrowImage];
+    [messageArrowImage mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.right.mas_equalTo(messageView).with.offset(-10);
+        make.centerY.mas_equalTo(messageView);
+        make.width.mas_equalTo(15);
+        make.height.mas_equalTo(15);
+    }];
+    UILabel *messageContentLabel = [[UILabel alloc] init];
+    self.messageContentLabel = messageContentLabel;
+    [messageView addSubview:messageContentLabel];
+    messageContentLabel.backgroundColor = [UIColor whiteColor];
+    messageContentLabel.textAlignment = NSTextAlignmentCenter;
+    messageContentLabel.textColor = HexColor(@"#333333");
+    messageContentLabel.font = [UIFont systemFontOfSize:14];
+    [messageContentLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.mas_equalTo(messageView);
+        make.height.mas_equalTo(messageView);
+        make.left.mas_equalTo(messageImageView.mas_right).with.offset(7);
+        make.right.mas_equalTo(messageArrowImage.mas_left);
+    }];
+    //消息手势
+    UITapGestureRecognizer *messageTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(messageTap:)];
+    messageTap.numberOfTapsRequired = 1;
+    messageTap.numberOfTouchesRequired = 1;
+    [messageView addGestureRecognizer:messageTap];
 
     
+    //公司新闻
+    _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_W, SCREEN_H- 44) style:UITableViewStyleGrouped];
+    //自动调整滚动视图适配view设置，默认为YES
+    self.automaticallyAdjustsScrollViewInsets = NO;
+    _tableView.delegate = self;
+    _tableView.dataSource = self;
+    _tableView.tableHeaderView = baseView;
+    _tableView.backgroundColor = [UIColor whiteColor];
+    [self.view addSubview:_tableView];
+//    [tableView mas_makeConstraints:^(MASConstraintMaker *make) {
+//        make.top.mas_equalTo(self.view);
+//        make.width.mas_equalTo(self.view);
+//        make.height.mas_equalTo(SCREEN_H);
+//    }];
+    //注册表格
+    [_tableView registerClass:[LTSCompanyNewsCell class] forCellReuseIdentifier:@"newsCell"];
+    
+    
 }
+
+-(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
+    return 1;
+}
+
+-(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    NSLog(@"cell数：%ld",self.datas.count);
+    return self.datas.count;
+}
+-(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
+    
+    NSString *ident = @"newsCell";
+    LTSCompanyNewsCell *cell = [tableView dequeueReusableCellWithIdentifier:ident forIndexPath:indexPath];
+    //模型赋值
+    LTSNewsAndNoticeModel *model = _datas[indexPath.row];
+    cell.model = model;
+
+    return cell;
+}
+//行高
+-(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return 86;
+}
+
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+}
+
+//组头
+-(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
+{
+    UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_W, 30)];
+    
+    UILabel *headerLabel = [[UILabel alloc] init];
+    headerLabel.text = @"公司新闻";
+    headerLabel.font = [UIFont systemFontOfSize:16];
+    headerLabel.backgroundColor = [UIColor whiteColor];
+    [headerView addSubview:headerLabel];
+    [headerLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.mas_equalTo(headerView);
+        make.left.mas_equalTo(headerView).with.offset(10);
+        make.height.mas_equalTo(headerView);
+        make.width.mas_equalTo(100);
+    }];
+    
+    UIImageView *imageView = [[UIImageView alloc] init];
+    imageView.backgroundColor = [UIColor grayColor];
+    [headerView addSubview:imageView];
+    imageView.image = [UIImage imageNamed:@""];
+    [imageView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.mas_equalTo(headerView);
+        make.right.mas_equalTo(headerView.mas_right).with.offset(-10);
+        make.width.height.mas_equalTo(30);
+    }];
+    //获取更多新闻手势
+    UITapGestureRecognizer *moreNewsTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(moreNewsTap:)];
+    moreNewsTap.numberOfTapsRequired = 1;
+    moreNewsTap.numberOfTouchesRequired = 1;
+    [imageView addGestureRecognizer:moreNewsTap];
+    imageView.userInteractionEnabled = YES;
+    
+    return headerView;
+}
+//组头高度(一定要实现这个方法，设置的组头才能显示出来)
+-(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+{
+    return 30;
+}
+-(CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section{
+    return 0;
+}
+
+-(void)noticeTap:(UITapGestureRecognizer *)tap{
+    NSLog(@"点击了公告");
+}
+
+-(void)messageTap:(UITapGestureRecognizer *)tap{
+    NSLog(@"点击了消息");
+}
+
+-(void)moreNewsTap:(UITapGestureRecognizer *)tap{
+    NSLog(@"点击了获取更多新闻");
+}
+
 
 
 //业务介绍按钮点击事件
@@ -157,14 +460,14 @@
     [[self.businessBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
         @strongify(self)
         LTSBaseWebViewControlle *webView = [LTSBaseWebViewControlle new];
-        webView.url = [NSURL URLWithString:[kLTSDBBaseUrl stringByAppendingString:kLTSDBBusinessIntroduction]];
+        webView.url = [NSURL URLWithString:[[kLTSDBBaseUrl stringByAppendingString:kLTSDBBusinessIntroduction] stringByAppendingFormat:@"?cif_account=%@",[LTSUserDefault objectForKey:@"cif_account"]]];
         [self.navigationController pushViewController:webView animated:YES];
     }];
     
     [[self.exampleBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
         @strongify(self)
         LTSBaseWebViewControlle *webView = [LTSBaseWebViewControlle new];
-        webView.url = [NSURL URLWithString:[kLTSDBBaseUrl stringByAppendingString:kLTSDBClassicCase]];
+        webView.url = [NSURL URLWithString:[[kLTSDBBaseUrl stringByAppendingString:kLTSDBClassicCase] stringByAppendingFormat:@"?cif_account=%@",[LTSUserDefault objectForKey:@"cif_account"]]];
         [self.navigationController pushViewController:webView animated:YES];
     }];
 

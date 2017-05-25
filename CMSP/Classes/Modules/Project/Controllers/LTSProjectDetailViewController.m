@@ -28,14 +28,15 @@
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:YES];
+    self.tabBarController.tabBar.hidden = YES;
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view.backgroundColor = OrangeColor;
     self.automaticallyAdjustsScrollViewInsets = NO;
-    
+
     //webView适配底部tabar和导航栏
-    self.edgesForExtendedLayout = UIRectEdgeNone;
+//    self.edgesForExtendedLayout = UIRectEdgeNone;
     
 }
 
@@ -181,6 +182,7 @@
 
 -(WKWebView *)webView{
     if (!_webView) {
+
         configuration = [[WKWebViewConfiguration alloc]init];
         configuration.userContentController = [[WKUserContentController alloc]init];
         

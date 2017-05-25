@@ -127,11 +127,12 @@
 
 
 //开始加载时调用
- - (void)webView:(WKWebView *)webView didStartProvisionalNavigation:(WKNavigation *)navigation{
-
- }
+- (void)webView:(WKWebView *)webView didStartProvisionalNavigation:(WKNavigation *)navigation{
+    [webView.scrollView beginActLoading];
+}
 
 - (void)webView:(WKWebView *)webView didFinishNavigation:(WKNavigation *)navigation{
+    
     [webView.scrollView endActLoading];
 //     topView.hidden = NO;
 //    [self.navigationController setNavigationBarHidden:YES animated:NO];

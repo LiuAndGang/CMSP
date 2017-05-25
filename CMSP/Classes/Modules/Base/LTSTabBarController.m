@@ -27,6 +27,7 @@
 - (void)dealloc{
     
     [LTSUserDefault setBool:0 forKey:KPath_UserLoginState];
+    NSLog(@"%@",@"tabbar销毁");
 }
 
 - (void)viewDidLoad {

@@ -13,6 +13,7 @@
 #import "CleanCache.h"
 #import "LTSBaseWebViewControlle.h"
 #import "LTSLogTypeTransition.h"
+#import "LTSPassWordViewController.h"
 @interface LTSAccountViewController ()<UITableViewDelegate,UITableViewDataSource>
 
 @property (nonatomic,strong)UIImageView *headerImage;
@@ -58,13 +59,14 @@
     self.automaticallyAdjustsScrollViewInsets = NO;
     [self initUI];
     [self initData];
+    _cleancache = [[CleanCache alloc] init];
 }
 -(void)initData
 {
     //@[@"我的粤财币",@"我的资产"]
-    _dataSource = @[@"清除缓存",@"免责声明",@"关于"];
+    _dataSource = @[@"修改密码",@"清除缓存",@"服务协议",@"关于"];
 //    @[@"icon_goldcoin",@"icon_property"]
-    _images =  @[@"icon_checkUpdate",@"icon_declare",@"icon_about"];
+    _images =  @[@"updatePw",@"icon_checkUpdate",@"icon_declare",@"icon_about"];
     //缓存对象
     _cleancache = [[CleanCache alloc] init];
     
@@ -74,20 +76,20 @@
 
     
     //判断登录状态，如果登录就获取信息
-    if ([LTSUserDefault objectForKey:Login_Token]) {
-        
-        [LTSDBManager POST:[kLTSDBBaseUrl stringByAppendingString:KLTSDBGainUserInfo] params:@{@"login_user_type":login_user_type,@"logName":[LTSUserDefault objectForKey:@"logName"]} block:^(id responseObject, NSError *error) {
-            if (responseObject[@"result"]) {
-                NSLog(@"获取用户详情成功");
-                [self.userInfoDic setValue:[responseObject[@"data"][@"real_name"] stringByRemovingPercentEncoding] forKey:@"真实姓名"];
-                _nameLabel.text = _userInfoDic[@"真实姓名"];
-                
-            }else{
-                NSLog(@"获取详情失败");
-            }
-        }];
-
-    }
+//    if ([LTSUserDefault objectForKey:Login_Token]) {
+//        
+//        [LTSDBManager POST:[kLTSDBBaseUrl stringByAppendingString:KLTSDBGainUserInfo] params:@{@"login_user_type":login_user_type,@"logName":[LTSUserDefault objectForKey:@"logName"]} block:^(id responseObject, NSError *error) {
+//            if ([responseObject[@"result"] isEqual:@1]) {
+//                NSLog(@"获取用户详情成功");
+//                [self.userInfoDic setValue:[responseObject[@"data"][@"real_name"] stringByRemovingPercentEncoding] forKey:@"真实姓名"];
+//                _nameLabel.text = _userInfoDic[@"真实姓名"];
+//                
+//            }else{
+//                NSLog(@"获取详情失败");
+//            }
+//        }];
+//
+//    }
 
 
 }
@@ -152,8 +154,10 @@
     self.nameLabel = ({UILabel *label = [UILabel new];
         [view addSubview:label];
         label.textAlignment = NSTextAlignmentCenter;
-        if (_userInfoDic[@"真实姓名"]) {
-            label.text = _userInfoDic[@"真实姓名"];
+        BOOL loginState = [LTSUserDefault boolForKey:KPath_UserLoginState];
+        NSLog(@"%d",loginState);
+        if ([LTSUserDefault objectForKey:@"real_name"] && loginState) {
+            label.text = [LTSUserDefault objectForKey:@"real_name"];
         }else{
             label.text = @"登录/注册";
         }
@@ -207,16 +211,24 @@
     static NSString *identifier = @"cell";
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
     if (!cell) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:identifier];
     }
     
-    cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     //cell标题
     cell.textLabel.text = _dataSource[indexPath.row];
     cell.textLabel.textColor = HexColor(@"#676769");
     cell.textLabel.font = [UIFont systemFontOfSize:15];
     //cell左侧图标
     cell.imageView.image = [UIImage imageNamed:_images[indexPath.row]];
+    if ([cell.textLabel.text isEqualToString:@"清除缓存"]) {
+        
+        cell.detailTextLabel.text = [NSString stringWithFormat:@"%.2fM",[_cleancache getCacheSizeAtPath:[_cleancache getCachesPath]]];
+        cell.detailTextLabel.font = [UIFont systemFontOfSize:15];
+
+    }else{
+        cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+
+    }
     return cell;
 }
 
@@ -259,11 +271,17 @@
         [self.navigationController pushViewController:detailVc animated:YES];
 
     }
+    if ([cell.textLabel.text isEqualToString:@"修改密码"]) {
+        LTSPassWordViewController *passWordVc = [LTSPassWordViewController new];
+        [self.navigationController pushViewController:passWordVc animated:YES];
+        
+    }
     if ([cell.textLabel.text isEqualToString:@"清除缓存"]) {
         [CleanCache clearCacheAtPath:[_cleancache getCachesPath]];
+        cell.detailTextLabel.text = [NSString stringWithFormat:@"%.2fM",[_cleancache getCacheSizeAtPath:[_cleancache getCachesPath]]];
         [ActivityHub ShowHub:KWork_cleanCacheSuccess];
     }
-    if ([cell.textLabel.text isEqualToString:@"免责声明"]) {
+    if ([cell.textLabel.text isEqualToString:@"服务协议"]) {
         LTSBaseWebViewControlle *detailVc = [LTSBaseWebViewControlle new];
         detailVc.url = [NSURL URLWithString:[kLTSDBBaseUrl stringByAppendingString:KLTSDBDisclaimer]];
         [self.navigationController pushViewController:detailVc animated:YES];

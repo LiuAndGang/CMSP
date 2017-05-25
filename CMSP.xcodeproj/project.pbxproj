@@ -79,7 +79,10 @@
 		91BA8A34757A666F6D5E1875 /* Pods_CMSP.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 190771C116B7038805668F0D /* Pods_CMSP.framework */; };
 		C267851C1E9FC7CD00BA6797 /* LTSChangePassWordViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C267851B1E9FC7CD00BA6797 /* LTSChangePassWordViewController.m */; };
 		C27D35941EA9EFC400E75B4C /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C27D35931EA9EFC400E75B4C /* Images.xcassets */; };
+		C2873F5C1ED2C90D0043AE43 /* LTSCompanyNewsCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C2873F5B1ED2C90D0043AE43 /* LTSCompanyNewsCell.m */; };
 		C28C29DE1EA4A74E001F4FA5 /* LTSProjectDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C28C29DD1EA4A74E001F4FA5 /* LTSProjectDetailViewController.m */; };
+		C28FD2681ED40E6A00067E54 /* LTSNewsAndNoticeModel.m in Sources */ = {isa = PBXBuildFile; fileRef = C28FD2671ED40E6A00067E54 /* LTSNewsAndNoticeModel.m */; };
+		C28FD26E1ED57F2800067E54 /* LTSPassWordViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C28FD26D1ED57F2800067E54 /* LTSPassWordViewController.m */; };
 		C297897D1E9B2B72007CC25B /* LTSPartnersRegisterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C297897C1E9B2B72007CC25B /* LTSPartnersRegisterViewController.m */; };
 		C2AACEC61EA45BD00018C63D /* CleanCache.m in Sources */ = {isa = PBXBuildFile; fileRef = C2AACEC51EA45BD00018C63D /* CleanCache.m */; };
 		C2ABAFB81E9CAB2D0066588C /* LeftLabelTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = C2ABAFB71E9CAB2D0066588C /* LeftLabelTextField.m */; };
@@ -87,6 +90,8 @@
 		C2ABAFC11E9CDEE00066588C /* LTSChangeInformationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C2ABAFC01E9CDEE00066588C /* LTSChangeInformationViewController.m */; };
 		C2ABAFC41E9E241A0066588C /* LTSUserInfoModel.m in Sources */ = {isa = PBXBuildFile; fileRef = C2ABAFC31E9E241A0066588C /* LTSUserInfoModel.m */; };
 		C2BE34BA1EA87D71002D399D /* LTSLogTypeTransition.m in Sources */ = {isa = PBXBuildFile; fileRef = C2BE34B91EA87D71002D399D /* LTSLogTypeTransition.m */; };
+		C2C038FD1ECD74CB00F63082 /* LTSCompanyIntroduceViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C2C038FC1ECD74CB00F63082 /* LTSCompanyIntroduceViewController.m */; };
+		C2C039001ECD86D600F63082 /* LTSAgreementViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C2C038FF1ECD86D600F63082 /* LTSAgreementViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -261,8 +266,14 @@
 		C267851A1E9FC7CD00BA6797 /* LTSChangePassWordViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LTSChangePassWordViewController.h; sourceTree = "<group>"; };
 		C267851B1E9FC7CD00BA6797 /* LTSChangePassWordViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LTSChangePassWordViewController.m; sourceTree = "<group>"; };
 		C27D35931EA9EFC400E75B4C /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		C2873F5A1ED2C90D0043AE43 /* LTSCompanyNewsCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LTSCompanyNewsCell.h; sourceTree = "<group>"; };
+		C2873F5B1ED2C90D0043AE43 /* LTSCompanyNewsCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LTSCompanyNewsCell.m; sourceTree = "<group>"; };
 		C28C29DC1EA4A74E001F4FA5 /* LTSProjectDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LTSProjectDetailViewController.h; sourceTree = "<group>"; };
 		C28C29DD1EA4A74E001F4FA5 /* LTSProjectDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LTSProjectDetailViewController.m; sourceTree = "<group>"; };
+		C28FD2661ED40E6A00067E54 /* LTSNewsAndNoticeModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LTSNewsAndNoticeModel.h; sourceTree = "<group>"; };
+		C28FD2671ED40E6A00067E54 /* LTSNewsAndNoticeModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LTSNewsAndNoticeModel.m; sourceTree = "<group>"; };
+		C28FD26C1ED57F2800067E54 /* LTSPassWordViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LTSPassWordViewController.h; sourceTree = "<group>"; };
+		C28FD26D1ED57F2800067E54 /* LTSPassWordViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LTSPassWordViewController.m; sourceTree = "<group>"; };
 		C297897B1E9B2B72007CC25B /* LTSPartnersRegisterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LTSPartnersRegisterViewController.h; sourceTree = "<group>"; };
 		C297897C1E9B2B72007CC25B /* LTSPartnersRegisterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LTSPartnersRegisterViewController.m; sourceTree = "<group>"; };
 		C2AACEC41EA45BD00018C63D /* CleanCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CleanCache.h; sourceTree = "<group>"; };
@@ -277,6 +288,10 @@
 		C2ABAFC31E9E241A0066588C /* LTSUserInfoModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LTSUserInfoModel.m; sourceTree = "<group>"; };
 		C2BE34B81EA87D71002D399D /* LTSLogTypeTransition.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LTSLogTypeTransition.h; sourceTree = "<group>"; };
 		C2BE34B91EA87D71002D399D /* LTSLogTypeTransition.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LTSLogTypeTransition.m; sourceTree = "<group>"; };
+		C2C038FB1ECD74CB00F63082 /* LTSCompanyIntroduceViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LTSCompanyIntroduceViewController.h; sourceTree = "<group>"; };
+		C2C038FC1ECD74CB00F63082 /* LTSCompanyIntroduceViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LTSCompanyIntroduceViewController.m; sourceTree = "<group>"; };
+		C2C038FE1ECD86D600F63082 /* LTSAgreementViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LTSAgreementViewController.h; sourceTree = "<group>"; };
+		C2C038FF1ECD86D600F63082 /* LTSAgreementViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LTSAgreementViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -418,6 +433,8 @@
 				38F5AF791DF6617A00C3B674 /* LTSEnterpriseRegisterViewController.m */,
 				C297897B1E9B2B72007CC25B /* LTSPartnersRegisterViewController.h */,
 				C297897C1E9B2B72007CC25B /* LTSPartnersRegisterViewController.m */,
+				C2C038FE1ECD86D600F63082 /* LTSAgreementViewController.h */,
+				C2C038FF1ECD86D600F63082 /* LTSAgreementViewController.m */,
 			);
 			path = "Login&Register";
 			sourceTree = "<group>";
@@ -614,8 +631,12 @@
 				C2ABAFBD1E9CBBD90066588C /* LTSUserInfoViewController.m */,
 				C2ABAFBF1E9CDEE00066588C /* LTSChangeInformationViewController.h */,
 				C2ABAFC01E9CDEE00066588C /* LTSChangeInformationViewController.m */,
+				C28FD26C1ED57F2800067E54 /* LTSPassWordViewController.h */,
+				C28FD26D1ED57F2800067E54 /* LTSPassWordViewController.m */,
 				38F5AFD71DF8E5B900C3B674 /* LTSAboutViewController.h */,
 				38F5AFD81DF8E5B900C3B674 /* LTSAboutViewController.m */,
+				C2C038FB1ECD74CB00F63082 /* LTSCompanyIntroduceViewController.h */,
+				C2C038FC1ECD74CB00F63082 /* LTSCompanyIntroduceViewController.m */,
 				3840EF711DF900C000EC8FCC /* LTSSetGesturePwdViewController.h */,
 				3840EF721DF900C000EC8FCC /* LTSSetGesturePwdViewController.m */,
 			);
@@ -648,6 +669,8 @@
 		38F5AF431DEFCD0A00C3B674 /* Cells */ = {
 			isa = PBXGroup;
 			children = (
+				C2873F5A1ED2C90D0043AE43 /* LTSCompanyNewsCell.h */,
+				C2873F5B1ED2C90D0043AE43 /* LTSCompanyNewsCell.m */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -664,6 +687,8 @@
 		38F5AF451DEFCD0A00C3B674 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				C28FD2661ED40E6A00067E54 /* LTSNewsAndNoticeModel.h */,
+				C28FD2671ED40E6A00067E54 /* LTSNewsAndNoticeModel.m */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -1024,6 +1049,7 @@
 				38F5AFB91DF6AB4700C3B674 /* SettingCollectionCell.m in Sources */,
 				3840EF8B1DF95CBC00EC8FCC /* JinnLockTool.m in Sources */,
 				3840EF8C1DF95CBC00EC8FCC /* JinnLockViewController.m in Sources */,
+				C28FD2681ED40E6A00067E54 /* LTSNewsAndNoticeModel.m in Sources */,
 				38F5AF911DF6676200C3B674 /* WPAttributedStyleAction.m in Sources */,
 				38F5AF741DF65FE500C3B674 /* LTSRegisterViewController.m in Sources */,
 				3870844E1DEEB52E004DBBC1 /* UIColor+Common.m in Sources */,
@@ -1031,6 +1057,7 @@
 				38F5AF241DEFADDF00C3B674 /* LTSBaseViewController.m in Sources */,
 				38F5AF551DEFCF0B00C3B674 /* LTSHomeViewController.m in Sources */,
 				3840EF881DF95CBC00EC8FCC /* JinnLockCircle.m in Sources */,
+				C28FD26E1ED57F2800067E54 /* LTSPassWordViewController.m in Sources */,
 				38F5AFBA1DF6AB4700C3B674 /* SettingCollectionView.m in Sources */,
 				38F5AF951DF6676200C3B674 /* NSString+WPAttributedMarkup.m in Sources */,
 				C2ABAFBE1E9CBBD90066588C /* LTSUserInfoViewController.m in Sources */,
@@ -1046,6 +1073,7 @@
 				387084451DEEADFB004DBBC1 /* JQIndicatorView.m in Sources */,
 				C2ABAFB81E9CAB2D0066588C /* LeftLabelTextField.m in Sources */,
 				38F5AFC81DF799BA00C3B674 /* WKDelegateController.m in Sources */,
+				C2C039001ECD86D600F63082 /* LTSAgreementViewController.m in Sources */,
 				38F5AF581DEFCF1800C3B674 /* LTSProjectViewController.m in Sources */,
 				38F5AF771DF6615500C3B674 /* LTSPersonalRegisterViewController.m in Sources */,
 				C267851C1E9FC7CD00BA6797 /* LTSChangePassWordViewController.m in Sources */,
@@ -1058,6 +1086,7 @@
 				38F5AF3D1DEFC2D000C3B674 /* LTSBaseViewModel.m in Sources */,
 				C2AACEC61EA45BD00018C63D /* CleanCache.m in Sources */,
 				38F5AF2A1DEFADE800C3B674 /* LTSTabBarController.m in Sources */,
+				C2873F5C1ED2C90D0043AE43 /* LTSCompanyNewsCell.m in Sources */,
 				38F5AF831DF6654900C3B674 /* UIView+Common.m in Sources */,
 				C28C29DE1EA4A74E001F4FA5 /* LTSProjectDetailViewController.m in Sources */,
 				38F5AF9B1DF69AFD00C3B674 /* MMActivityHub.m in Sources */,
@@ -1089,6 +1118,7 @@
 				38F5AFB71DF6AB4700C3B674 /* SettingCell.m in Sources */,
 				3801C1A31DFE2EAA004FA722 /* LTSCustomButton.m in Sources */,
 				387084441DEEADFB004DBBC1 /* JQCyclingLineAnimation.m in Sources */,
+				C2C038FD1ECD74CB00F63082 /* LTSCompanyIntroduceViewController.m in Sources */,
 				38F5AFB61DF6AB4700C3B674 /* SettingArrowItem.m in Sources */,
 				C297897D1E9B2B72007CC25B /* LTSPartnersRegisterViewController.m in Sources */,
 				38F5AF291DEFADE800C3B674 /* LTSBaseWebViewControlle.m in Sources */,

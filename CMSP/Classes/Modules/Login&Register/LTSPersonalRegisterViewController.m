@@ -9,6 +9,7 @@
 #import "LTSPersonalRegisterViewController.h"
 #import "LTSCustomTextField.h"
 #import "WPAttributedLabel.h"
+#import "LTSAgreementViewController.h"
 @interface LTSPersonalRegisterViewController ()
 
 @property (nonatomic,strong)UIScrollView *scrollView;
@@ -46,8 +47,13 @@
 
 - (void)initUI{
     
-    self.scrollView = [[UIScrollView alloc] initWithFrame:self.view.bounds];
+    self.scrollView = [[UIScrollView alloc]initWithFrame:self.view.frame];
     [self.view addSubview:self.scrollView];
+//    self.scrollView.backgroundColor = OrangeColor;
+    self.scrollView.contentSize = CGSizeMake(Screen_Width, Screen_Height);
+    self.scrollView.bounces = NO;
+    self.scrollView.showsVerticalScrollIndicator = NO;
+
     
     UIView *view = [UIView new];
     [self.scrollView addSubview:view];
@@ -185,6 +191,8 @@
         [button mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.mas_equalTo(15);
             make.top.mas_equalTo(self.login_btn.mas_bottom).with.offset(15);
+            make.width.mas_equalTo(15);
+            make.height.mas_equalTo(15);
         }];
         button;
     });
@@ -193,6 +201,12 @@
     
     NSDictionary* style = @{@"body":[UIFont systemFontOfSize:13],
                             @"help":[WPAttributedStyleAction styledActionWithAction:^{
+                               
+
+                                LTSAgreementViewController *agreeVc = [LTSAgreementViewController new];
+                                agreeVc.stringHtml =[kLTSDBBaseUrl stringByAppendingString:KLTSDBDisclaimer];
+                                [self.navigationController pushViewController:agreeVc animated:YES];
+
                                 
                             }],
                             

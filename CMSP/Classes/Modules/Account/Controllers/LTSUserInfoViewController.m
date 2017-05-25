@@ -26,6 +26,8 @@
 @property (nonatomic,strong) UITableView *tableView;
 /**用户信息字典*/
 @property (nonatomic,strong) NSMutableDictionary *userInfoDic;
+
+@property (nonatomic,strong) UIButton *backBtn;
 @end
 
 @implementation LTSUserInfoViewController
@@ -59,6 +61,25 @@
 
     [self initUI];
     [self initData];
+    [self initNavBar];
+}
+
+-(void)initNavBar
+{
+    _backBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    _backBtn.frame = CGRectMake(10, 20, 20, 20);
+    [_backBtn setImage:[UIImage imageNamed:@"icon_nav_back"] forState:UIControlStateNormal];
+    [_backBtn addTarget:self action:@selector(back:) forControlEvents:UIControlEventTouchUpInside];
+    
+    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:_backBtn];
+}
+
+-(void)back:(UIButton *)btn
+{
+    //        [self.view resignFirstResponder];
+    [self.navigationController popViewControllerAnimated:YES];
+    
+    
 }
 
 -(void)initData{
@@ -200,6 +221,7 @@
     //退出登录按钮
     UIView *footerView = [UIView new];
     footerView.frame = CGRectMake(0, 0, Screen_Width, 100);
+    footerView.userInteractionEnabled = YES;
     tableView.tableFooterView = footerView;
     self.outButton = ({UIButton *button = [UIButton new];
         [footerView addSubview:button];
@@ -243,7 +265,7 @@
     [[self.outButton rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
         @strongify(self)
         [LTSDBManager POST:[kLTSDBBaseUrl stringByAppendingString:KLTSDBLogout] params:@{@"grantticket_id":(NSString*)[LTSUserDefault valueForKey:Login_Token]} block:^(id responseObject, NSError *error) {
-            if (responseObject[@"result"]) {
+            if ([responseObject[@"result"] isEqual:@1]) {
                 NSLog(@"登出成功！");
                 LTSLoginViewController *loginVC = [LTSLoginViewController new];
                 [self presentViewController:loginVC animated:YES completion:nil];
@@ -251,6 +273,10 @@
                 [LTSUserDefault setBool:0 forKey:KPath_UserLoginState];
                 [LTSUserDefault setBool:0 forKey:KPath_AutoLogin];
                 [LTSUserDefault setObject:nil forKey:Login_Token];
+               
+                //根据bundleID清空所有本地数据
+                NSString*appDomain = [[NSBundle mainBundle] bundleIdentifier];
+                [LTSUserDefault removePersistentDomainForName:appDomain];
             }
         }];
         

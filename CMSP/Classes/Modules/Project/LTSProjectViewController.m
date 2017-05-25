@@ -36,6 +36,8 @@
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:YES];
+    self.tabBarController.tabBar.hidden = NO;
+
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -43,7 +45,7 @@
     self.automaticallyAdjustsScrollViewInsets = NO;
     
     //webView适配底部tabar和导航栏
-    self.edgesForExtendedLayout = UIRectEdgeNone;
+//    self.edgesForExtendedLayout = UIRectEdgeNone;
     
 }
 
@@ -66,7 +68,7 @@
 
 - (void)initData
 {
-    _url = [NSURL URLWithString:[kLTSDBBaseUrl stringByAppendingString:KLTSDBProject]];
+    _url = [NSURL URLWithString:[[kLTSDBBaseUrl stringByAppendingString:KLTSDBProject] stringByAppendingFormat:@"?cif_account=%@",[LTSUserDefault objectForKey:@"cif_account"]]];
     dispatch_async(dispatch_get_global_queue(0, 0), ^{
         if (self.url) {
             

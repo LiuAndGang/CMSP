@@ -38,10 +38,11 @@ static const void *HttpRequestHUDKey = &HttpRequestHUDKey;
         UIImageView *imageView = [[UIImageView alloc]initWithImage:image];
         self.HUD.customView = imageView;
         self.HUD.label.text = hint;
-        self.HUD.bezelView.color = BlueDeepColorAlpha(0.85);
+        self.HUD.bezelView.color = OrangeColorAlpha(0.85);
     }
     else [self createHUDWithView:view image:@"hudFail" hint:hint];
-    
+    [self hideHud];
+
     
 }
 
@@ -55,7 +56,8 @@ static const void *HttpRequestHUDKey = &HttpRequestHUDKey;
         
     }
     else [self createHUDWithView:view image:@"hudSuccess" hint:hint];
-    
+    [self hideHud];
+
 }
 
 
@@ -81,7 +83,7 @@ static const void *HttpRequestHUDKey = &HttpRequestHUDKey;
 }
 
 - (void)hideHud{
-   [[self HUD] hideAnimated:YES afterDelay:2.5];
+   [[self HUD] hideAnimated:YES afterDelay:1];
 }
 - (void)hideHudWithAfterDelay:(NSTimeInterval)time{
     [[self HUD] hideAnimated:YES afterDelay:time];

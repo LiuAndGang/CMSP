@@ -16,6 +16,8 @@
 
 @property (nonatomic,strong)LTSSegmentView *segmentView;
 
+@property (nonatomic,strong) UIButton *backBtn;
+
 @end
 
 @implementation LTSRegisterViewController
@@ -41,6 +43,25 @@
     [self addChildViewController:partner];
     [self addChildViewController:enterprise];
     [self.segmentView configViewControllers:@[personal,partner,enterprise] titles:@[@"个人",@"合作机构",@"企业"]];
+    
+    [self initNavBar];
+}
+-(void)initNavBar
+{
+    _backBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    _backBtn.frame = CGRectMake(10, 20, 20, 20);
+    [_backBtn setImage:[UIImage imageNamed:@"icon_nav_back"] forState:UIControlStateNormal];
+    [_backBtn addTarget:self action:@selector(back:) forControlEvents:UIControlEventTouchUpInside];
+    
+    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:_backBtn];
+}
+
+-(void)back:(UIButton *)btn
+{
+    //        [self.view resignFirstResponder];
+    [self.navigationController popViewControllerAnimated:YES];
+    
+    
 }
 
 - (void)didReceiveMemoryWarning {

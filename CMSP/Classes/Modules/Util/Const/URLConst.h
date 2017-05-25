@@ -26,7 +26,7 @@
 #define KLTSDBLogout @"accountUserInterAction!logout.action"
 
 //注册
-#define kLTSDBRegUser @"accountUserInterAction!regUser.action"
+#define kLTSDBRegUser @"accountUserInterAction!regUserToMainSystem.action"
 
 //获取用户详情
 #define KLTSDBGainUserInfo @"accountUserInterAction!selectAccountUser.action"
@@ -40,13 +40,16 @@
 ///经典案例
 #define kLTSDBClassicCase  @"account/front/main/caseIntroduction.jsp"
 
-///再担保  等等 传参数 productCode  (R-再担保) (F-直保融资) (N-直保非融资)(无参-担保体系)
+//再担保  等等 传参数 productCode  (R-再担保) (F-直保融资) (N-直保非融资)(无参-担保体系)
 #define kLTSDBCoreBusiness @"account/front/main/coreBusiness.jsp"
+
+//消息公告
+#define KLTSDBNewsAndNotice @"customerRule!getClientNoticeList.action"
 
 //项目
 #define KLTSDBProject @"account/front/main/myProject.jsp"
-
-//免责声明
+#define kLTSDBChangePassword @"accountUserInterAction!changePassword.action"
+//服务协议
 #define KLTSDBDisclaimer @"account/front/main/disclaimer.jsp"
 
 //关于

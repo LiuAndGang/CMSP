@@ -22,7 +22,7 @@
 /**用户信息模型*/
 @property (nonatomic,strong) LTSUserInfoModel *model;
 
-
+@property (nonatomic,strong) UIButton *backBtn;
 @end
 
 @implementation LTSChangeInformationViewController
@@ -44,6 +44,8 @@
     self.title = self.nav_title;
     _model = [[LTSUserInfoModel alloc] init];
     [self addEvents];
+    [self addTouchClick];
+    
 }
 - (void)initUI
 {
@@ -63,6 +65,25 @@
         make.right.equalTo(self.view.mas_right).with.offset(-padding);
         make.height.mas_equalTo(textFieldH);
     }];
+    
+    [self initNavBar];
+    
+}
+-(void)initNavBar
+{
+    _backBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    _backBtn.frame = CGRectMake(10, 20, 20, 20);
+    [_backBtn setImage:[UIImage imageNamed:@"icon_nav_back"] forState:UIControlStateNormal];
+    [_backBtn addTarget:self action:@selector(back:) forControlEvents:UIControlEventTouchUpInside];
+    
+    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:_backBtn];
+}
+
+-(void)back:(UIButton *)btn
+{
+    //        [self.view resignFirstResponder];
+    [self.navigationController popViewControllerAnimated:YES];
+    
     
 }
 
@@ -273,6 +294,21 @@
 
     }
 }
+
+//添加触摸收回键盘事件
+-(void)addTouchClick {
+    UITapGestureRecognizer *tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(keyboardHide:)];
+    //设置成NO表示当前控件响应后会传播到其他控件上，默认为YES。
+    tapGestureRecognizer.cancelsTouchesInView = NO;
+    //将触摸事件添加到当前view
+    [self.view addGestureRecognizer:tapGestureRecognizer];
+}
+
+-(void)keyboardHide:(UITapGestureRecognizer*)tap{
+    [self.tf_title resignFirstResponder];
+}
+
+
 
 //- (void)click{
 //    [self.view endEditing:YES];

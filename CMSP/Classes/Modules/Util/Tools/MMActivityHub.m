@@ -82,7 +82,7 @@ static MMActivityHub *shareMMActivityHub = nil;
                 [UIView animateWithDuration:0.1 animations:^{
                     [self->ActivitiViewHub setTransform:CGAffineTransformMakeScale(1.0, 1.0)];
                 }completion:^(BOOL finished){
-                    [self performSelector:@selector(CloseHub) withObject:nil afterDelay:2.5];
+                    [self performSelector:@selector(CloseHub) withObject:nil afterDelay:1.5];
                 }];
             }];
         }];

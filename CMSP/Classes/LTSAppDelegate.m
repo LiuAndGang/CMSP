@@ -95,9 +95,18 @@
     // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
 }
 
-
+//app 被kill的时候执行的方法
 - (void)applicationWillTerminate:(UIApplication *)application {
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+    
+    NSLog(@"%@",@"^^^^^^^^^^^^^^^^^^^^^^");
+    if ([LTSUserDefault boolForKey:KPath_AutoLogin]) {
+        [LTSUserDefault setBool:YES forKey:KPath_UserLoginState];
+    }else{
+        [LTSUserDefault setBool:NO forKey:KPath_UserLoginState];
+  
+    }
+    
 }
 
 

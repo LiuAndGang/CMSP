@@ -11,6 +11,8 @@
 #import "LTSAlertSheetView.h"
 #import "WPAttributedLabel.h"
 #import "LTSLogTypeTransition.h"
+#import "LTSAgreementViewController.h"
+
 @interface LTSEnterpriseRegisterViewController ()
 
 @property (nonatomic,strong)SettingView *tableView;
@@ -246,8 +248,8 @@
     //底部视图
     {
         UIView *footerView = [UIView new];
-        footerView.frame = CGRectMake(0, 0, Screen_Width, 100);
-        group.footerView = footerView;
+        footerView.frame = CGRectMake(0, 0, Screen_Width, 120);
+        self.tableView.tableFooterView = footerView;
         
         //注册按钮
         self.register_btn = ({UIButton *button = [UIButton new];
@@ -273,6 +275,8 @@
             [button mas_makeConstraints:^(MASConstraintMaker *make) {
                 make.left.mas_equalTo(15);
                 make.top.mas_equalTo(self.register_btn.mas_bottom).with.offset(15);
+                make.width.mas_equalTo(15);
+                make.height.mas_equalTo(15);
             }];
             button;
         });
@@ -281,7 +285,9 @@
         
         NSDictionary* style = @{@"body":[UIFont systemFontOfSize:13],
                                 @"help":[WPAttributedStyleAction styledActionWithAction:^{
-                                    
+                                    LTSAgreementViewController *agreeVc = [LTSAgreementViewController new];
+                                    agreeVc.stringHtml =[kLTSDBBaseUrl stringByAppendingString:KLTSDBDisclaimer];
+                                    [self.navigationController pushViewController:agreeVc animated:YES];
                                 }],
                                 
                                 @"link": HexColor(@"#00b0ec")};
@@ -369,16 +375,16 @@
         }
         
         //汉字转码
-        [LTSDBManager.requestSerializer setValue:@"application/x-www-form-urlencoded; charset=utf-8" forHTTPHeaderField:@"Content-Type"];
-        NSString *company_name = [_itemEntName.text stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-        NSString *real_name = [_itemConnectPeople.text stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-        NSString *logName = [_itemLogName.text stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+        //        [LTSDBManager.requestSerializer setValue:@"application/x-www-form-urlencoded; charset=utf-8" forHTTPHeaderField:@"Content-Type"];
+        //        NSString *company_name = [_itemEntName.text stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+        //        NSString *real_name = [_itemConnectPeople.text stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+        //        NSString *logName = [_itemLogName.text stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
         
         //转换登录用户类型
         NSString *login_user_type = [LTSLogTypeTransition logTypeTransition];
         
-        [LTSDBManager POST:[kLTSDBBaseUrl stringByAppendingString:kLTSDBRegUser]params:@{@"login_user_type":login_user_type,@"id_kind":_id_kind_return,@"logName":logName,@"password":_itemPassword.text,@"company_name":company_name,@"org_code":_itemCredentialsNum.text,@"real_name":real_name,@"mobile_phone":_itemPhoneNum.text} block:^(id responseObject, NSError *error) {
-            if ([responseObject[@"result"] isEqualToString:@"true"]) {
+        [LTSDBManager POST:[kLTSDBBaseUrl stringByAppendingString:kLTSDBRegUser]params:@{@"login_user_type":login_user_type,@"id_kind":_id_kind_return,@"logName":_itemLogName.text,@"password":_itemPassword.text,@"company_name":_itemEntName.text,@"org_code":_itemCredentialsNum.text,@"real_name":_itemConnectPeople.text,@"mobile_phone":_itemPhoneNum.text} block:^(id responseObject, NSError *error) {
+            if ([responseObject[@"result"] isEqual:@1]) {
                 NSLog(@"用户注册成功")
                 
                 [self.navigationController popViewControllerAnimated:YES];

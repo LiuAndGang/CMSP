@@ -11,8 +11,11 @@
 #import "LTSAlertSheetView.h"
 #import "WPAttributedLabel.h"
 #import "LTSLogTypeTransition.h"
-@interface LTSPartnersRegisterViewController ()
+#import "LTSAgreementViewController.h"
+@interface LTSPartnersRegisterViewController ()<UITableViewDelegate>
 
+@property (nonatomic,strong)UIScrollView *scrollView;
+@property (nonatomic,strong) UIView *bottomView;
 @property (nonatomic,strong)SettingView *tableView;
 //用户类型
 //@property (nonatomic,strong)SettingItem *itemUserStyle;
@@ -109,45 +112,57 @@
         
     }];
 }
-#pragma mark 获取当前的控制器
--(UIViewController *)getCurrentVC
-{
-    UIViewController *result = nil;
-    
-    UIWindow * window = [[UIApplication sharedApplication] keyWindow];
-    if (window.windowLevel != UIWindowLevelNormal)
-    {
-        NSArray *windows = [[UIApplication sharedApplication] windows];
-        for(UIWindow * tmpWin in windows)
-        {
-            if (tmpWin.windowLevel == UIWindowLevelNormal)
-            {
-                window = tmpWin;
-                break;
-            }
-        }
-    }
-    
-    UIView *frontView = [[window subviews] objectAtIndex:0];
-    id nextResponder = [frontView nextResponder];
-    
-    if ([nextResponder isKindOfClass:[UIViewController class]])
-        result = nextResponder;
-    else
-        result = window.rootViewController;
-    
-    return result;
-}
 
+//#pragma mark 获取当前的控制器
+//-(UIViewController *)getCurrentVC
+//{
+//    UIViewController *result = nil;
+//    
+//    UIWindow * window = [[UIApplication sharedApplication] keyWindow];
+//    if (window.windowLevel != UIWindowLevelNormal)
+//    {
+//        NSArray *windows = [[UIApplication sharedApplication] windows];
+//        for(UIWindow * tmpWin in windows)
+//        {
+//            if (tmpWin.windowLevel == UIWindowLevelNormal)
+//            {
+//                window = tmpWin;
+//                break;
+//            }
+//        }
+//    }
+//    
+//    UIView *frontView = [[window subviews] objectAtIndex:0];
+//    id nextResponder = [frontView nextResponder];
+//    
+//    if ([nextResponder isKindOfClass:[UIViewController class]])
+//        result = nextResponder;
+//    else
+//        result = window.rootViewController;
+//    
+//    return result;
+//}
+//
 - (void)initUI{
+    
+    
+//    UIView *view = [UIView new];
+////    [self.scrollView addSubview:_bottomView];
+//    [view mas_makeConstraints:^(MASConstraintMaker *make) {
+//        make.width.mas_equalTo(Screen_Width);
+//        make.top.left.mas_equalTo(0);
+//        make.height.mas_equalTo(667);
+//    }];
+
     self.tableView = ({ SettingView *tableView = [[SettingView alloc] init];
         tableView.backgroundColor = BGColorGray;
         tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-        //        tableView.sectionHeaderHeight = MoreTableViewHeaderHeight;
+//        tableView.sectionFooterHeight = 110;
         tableView.rowHeight = 44;
         tableView.sectionHeaderHeight = 0;
         tableView.sectionFooterHeight = 10;
         tableView.bottomLineLeftOffset = 0;
+        tableView.tableFooterView.hidden = YES;
         [self.view addSubview:tableView];
         [tableView mas_updateConstraints:^(MASConstraintMaker *make) {
             make.edges.equalTo(self.view).with.insets(UIEdgeInsetsMake(0, 0, 0, 0));
@@ -243,13 +258,17 @@
         
     };
     
-    
     //底部视图
     {
         UIView *footerView = [UIView new];
-        footerView.frame = CGRectMake(0, 0, Screen_Width, 100);
-        group.footerView = footerView;
-        
+        footerView.frame = CGRectMake(0, 0, Screen_Width, 120);
+        self.tableView.tableFooterView = footerView;
+//        [_bottomView addSubview:footerView];
+//        [footerView mas_makeConstraints:^(MASConstraintMaker *make) {
+//            make.top.mas_equalTo(self.tableView.mas_bottom);
+//            make.width.mas_equalTo(Screen_Width);
+//            make
+//        }];
         //注册按钮
         self.register_btn = ({UIButton *button = [UIButton new];
             [footerView addSubview:button];
@@ -274,6 +293,8 @@
             [button mas_makeConstraints:^(MASConstraintMaker *make) {
                 make.left.mas_equalTo(15);
                 make.top.mas_equalTo(self.register_btn.mas_bottom).with.offset(15);
+                make.width.mas_equalTo(15);
+                make.height.mas_equalTo(15);
             }];
             button;
         });
@@ -282,7 +303,9 @@
         
         NSDictionary* style = @{@"body":[UIFont systemFontOfSize:13],
                                 @"help":[WPAttributedStyleAction styledActionWithAction:^{
-                                    
+                                    LTSAgreementViewController *agreeVc = [LTSAgreementViewController new];
+                                    agreeVc.stringHtml =[kLTSDBBaseUrl stringByAppendingString:KLTSDBDisclaimer];
+                                    [self.navigationController pushViewController:agreeVc animated:YES];
                                 }],
                                 
                                 @"link": HexColor(@"#00b0ec")};
@@ -313,6 +336,7 @@
         });
         
     }
+
     
     
     //判断注册按钮的状态----(座机号接口暂时不支持，先去掉，后期再添加)
@@ -329,13 +353,12 @@
             
         }];
     }
-    
+//    group.footerView.hidden = YES;
     
     group.items = @[_itemEntName,_itemCredentialsStyle,_itemCredentialsNum,_itemConnectPeople,_itemPhoneNum,_itemLogName,_itemPassword,_itemRepassword];
     
     
 }
-
 
 
 - (void)addEvents{
@@ -370,16 +393,16 @@
         }
         
         //汉字转码
-        [LTSDBManager.requestSerializer setValue:@"application/x-www-form-urlencoded; charset=utf-8" forHTTPHeaderField:@"Content-Type"];
-        NSString *company_name = [_itemEntName.text stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-        NSString *real_name = [_itemConnectPeople.text stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-        NSString *logName = [_itemLogName.text stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+//        [LTSDBManager.requestSerializer setValue:@"application/x-www-form-urlencoded; charset=utf-8" forHTTPHeaderField:@"Content-Type"];
+//        NSString *company_name = [_itemEntName.text stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+//        NSString *real_name = [_itemConnectPeople.text stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+//        NSString *logName = [_itemLogName.text stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
 
         //转换登录用户类型
         NSString *login_user_type = [LTSLogTypeTransition logTypeTransition];
         
-        [LTSDBManager POST:[kLTSDBBaseUrl stringByAppendingString:kLTSDBRegUser]params:@{@"login_user_type":login_user_type,@"id_kind":_id_kind_return,@"logName":logName,@"password":_itemPassword.text,@"company_name":company_name,@"org_code":_itemCredentialsNum.text,@"real_name":real_name,@"mobile_phone":_itemPhoneNum.text} block:^(id responseObject, NSError *error) {
-            if ([responseObject[@"result"] isEqualToString:@"true"]) {
+        [LTSDBManager POST:[kLTSDBBaseUrl stringByAppendingString:kLTSDBRegUser]params:@{@"login_user_type":login_user_type,@"id_kind":_id_kind_return,@"logName":_itemLogName.text,@"password":_itemPassword.text,@"company_name":_itemEntName.text,@"org_code":_itemCredentialsNum.text,@"real_name":_itemConnectPeople.text,@"mobile_phone":_itemPhoneNum.text} block:^(id responseObject, NSError *error) {
+            if ([responseObject[@"result"] isEqual:@1]) {
                 NSLog(@"用户注册成功")
 
                 [self.navigationController popViewControllerAnimated:YES];

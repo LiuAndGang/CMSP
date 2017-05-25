@@ -17,6 +17,7 @@
 //    NSString *filePath = [cachesDir stringByAppendingPathComponent:@"myCache"];
     return cachesDir;
 }
+
 -(float)getCacheSizeAtPath:(NSString*)folderPath{
     NSFileManager* manager = [NSFileManager defaultManager];
     if (![manager fileExistsAtPath:folderPath]) return 0;

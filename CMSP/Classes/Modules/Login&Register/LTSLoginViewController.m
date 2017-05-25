@@ -72,6 +72,7 @@
     [LTSUserDefault setBool:0 forKey:KPath_AutoLogin];
     [LTSUserDefault setBool:0 forKey:KPath_UserLoginState];
     
+    [self addTouchClick];
     
 }
 
@@ -80,7 +81,7 @@
     
     self.scrollView = [[UIScrollView alloc]initWithFrame:self.view.frame];
     [self.view addSubview:self.scrollView];
-    self.scrollView.backgroundColor = OrangeColor;
+    self.scrollView.backgroundColor = [UIColor whiteColor];
     self.scrollView.contentSize = CGSizeMake(Screen_Width, Screen_Height);
     self.scrollView.bounces = NO;
     self.scrollView.showsVerticalScrollIndicator = NO;
@@ -251,7 +252,7 @@
             make.height.mas_equalTo(44);
         }];
         
-        //忘记密码按钮
+//        //忘记密码按钮
 //        _forgetbButton = [UIButton new];
 //        _forgetbButton.frame = CGRectMake(0, 0, 50, 20);
 //        [_forgetbButton setTitle:@"忘记密码" forState:UIControlStateNormal];
@@ -440,7 +441,8 @@
         }
 
         [LTSDBManager POST:[kLTSDBBaseUrl stringByAppendingString:kLTSDBLogin] params:@{@"auth_login_acct":self.userLoginType,@"logName":self.user_tf.text,@"password":self.password_tf.text} block:^(id responseObject, NSError *error) {
-            if (responseObject[@"result"]) {
+            if ([responseObject[@"result"] isEqual:@1]) {
+                NSLog(@"responseObject:%@",responseObject[@"result"]);
                 [self showSuccessInView:self.view hint:@"登录成功"];
                 NSLog(@"responseObject:%@",responseObject);
                 //页面一直持有这个票据
@@ -459,9 +461,14 @@
                 }
                 
                 //表示登录状态
-                [LTSUserDefault setBool:YES forKey:KPath_UserLoginState];
-                LTSTabBarController *tabbar = [LTSTabBarController new];
-                LTSAppDelegated.window.rootViewController = tabbar;
+                [LTSUserDefault setBool:1 forKey:KPath_UserLoginState];
+                
+                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                    LTSTabBarController *tabbar = [LTSTabBarController new];
+                    LTSAppDelegated.window.rootViewController = tabbar;
+                });
+
+                
                 
                 //转换登录用户类型
                 NSString *login_user_type = [LTSLogTypeTransition logTypeTransition];
@@ -470,14 +477,15 @@
                 //    [LTSDBManager.requestSerializer setValue:@"application/x-www-form-urlencoded; charset=utf-8" forHTTPHeaderField:@"Content-Type"];
                 if ([LTSUserDefault objectForKey:Login_Token]) {
                     [LTSDBManager POST:[kLTSDBBaseUrl stringByAppendingString:KLTSDBGainUserInfo] params:@{@"login_user_type":login_user_type,@"logName":[LTSUserDefault objectForKey:@"logName"]} block:^(id responseObject, NSError *error) {
-                        if (responseObject[@"result"]) {
+                        if ([responseObject[@"result"] isEqual:@1]) {
                             NSLog(@"获取用户详情成功");
                             
                             NSLog(@"responseObject：%@",responseObject);
                             
                             [LTSUserDefault setObject:responseObject[@"data"][@"cif_account"] forKey:@"cif_account"];
                             
-                            
+                            NSLog(@"cif_account:%@",[LTSUserDefault objectForKey:@"cif_account"]);
+                            [LTSUserDefault setObject:responseObject[@"data"][@"real_name"] forKey:@"real_name"];
                             
                         }else{
                             
@@ -490,6 +498,7 @@
 
             }else{
                 [self showErrorInView:self.view hint:responseObject[@"msg"]];
+                [self hideHud];
             }
 
         }];
@@ -573,6 +582,19 @@
 
 }
 
+//添加触摸收回键盘事件
+-(void)addTouchClick {
+    UITapGestureRecognizer *tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(keyboardHide:)];
+    //设置成NO表示当前控件响应后会传播到其他控件上，默认为YES。
+    tapGestureRecognizer.cancelsTouchesInView = NO;
+    //将触摸事件添加到当前view
+    [self.view addGestureRecognizer:tapGestureRecognizer];
+}
+
+-(void)keyboardHide:(UITapGestureRecognizer*)tap{
+    [self.user_tf resignFirstResponder];
+    [self.password_tf resignFirstResponder];
+}
 
 
 - (void)didReceiveMemoryWarning {

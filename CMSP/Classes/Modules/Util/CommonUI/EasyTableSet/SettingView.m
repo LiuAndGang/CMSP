@@ -127,19 +127,19 @@
     return group.header;
 }
 
-- (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section{
-    SettingGroup *group = self.groups[section];
-    return group.footerView;
-}
+//- (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section{
+//    SettingGroup *group = self.groups[section];
+//    return group.footerView;
+//}
 
-- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section{
-    SettingGroup *group = self.groups[section];
-    if (group.footerView) {
-        return CGRectGetHeight(group.footerView.frame);
-    }
-    
-    return self.sectionFooterHeight;
-}
+//- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section{
+//    SettingGroup *group = self.groups[section];
+//    if (group.footerView) {
+//        return CGRectGetHeight(group.footerView.frame);
+//    }
+//    
+//    return self.sectionFooterHeight;
+//}
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
     
     return self.sectionHeaderHeight;
