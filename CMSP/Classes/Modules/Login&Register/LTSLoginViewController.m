@@ -297,7 +297,7 @@
         [_bigView addSubview:button];
         [button mas_makeConstraints:^(MASConstraintMaker *make) {
             make.right.mas_equalTo(-30);
-             make.centerY.mas_equalTo(self.autoLoginBtn.mas_centerY);
+            make.centerY.mas_equalTo(self.autoLoginBtn.mas_centerY);
         }];
         
         
@@ -405,7 +405,6 @@
     
     [[self.loginBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
        @strongify(self)
-        [self showHudInView:self.view hint:@"正在登录"];
 
         
 //        if (![TextChecker isValidateUserName:self.user_tf.text]) {
@@ -439,6 +438,7 @@
         }else{
             self.userLoginType = @"-7";//合作机构
         }
+        [self showHudInView:self.view hint:@"正在登录"];
 
         [LTSDBManager POST:[kLTSDBBaseUrl stringByAppendingString:kLTSDBLogin] params:@{@"auth_login_acct":self.userLoginType,@"logName":self.user_tf.text,@"password":self.password_tf.text} block:^(id responseObject, NSError *error) {
             if ([responseObject[@"result"] isEqual:@1]) {
@@ -450,6 +450,7 @@
                 NSLog(@"票据:%@", responseObject[@"data"]);
                 [LTSUserDefault setObject:responseObject[@"data"] forKey:Login_Token];
                 [LTSUserDefault setObject:self.user_tf.text forKey:@"logName"];
+                //保存用户类型
                 [LTSUserDefault setObject:self.userLoginType forKey:KPath_UserLoginType];
                 [LTSUserDefault setObject:self.password_tf.text forKey:@"password"];
                 
@@ -486,6 +487,7 @@
                             
                             NSLog(@"cif_account:%@",[LTSUserDefault objectForKey:@"cif_account"]);
                             [LTSUserDefault setObject:responseObject[@"data"][@"real_name"] forKey:@"real_name"];
+                            [LTSUserDefault setObject:responseObject[@"data"][@"organ_flag"] forKey:@"organ_flag"];
                             
                         }else{
                             

@@ -39,10 +39,12 @@
     self.tabBarController.tabBar.hidden = NO;
 
 }
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view.backgroundColor = OrangeColor;
     self.automaticallyAdjustsScrollViewInsets = NO;
+    
     
     //webView适配底部tabar和导航栏
 //    self.edgesForExtendedLayout = UIRectEdgeNone;

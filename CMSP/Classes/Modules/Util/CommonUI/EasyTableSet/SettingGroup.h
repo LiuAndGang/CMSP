@@ -11,7 +11,7 @@
 @interface SettingGroup : NSObject
 @property (copy, nonatomic) NSString *header;
 @property (copy, nonatomic) NSString *footer;
-//@property (nonatomic,strong)UIView *footerView;
+@property (nonatomic,strong)UIView *footerView;
 
 @property (strong, nonatomic) NSArray *items;
 

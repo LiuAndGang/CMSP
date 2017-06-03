@@ -12,6 +12,7 @@
 #import "LTSAppDelegate.h"
 //#import "JSLoginViewController.h"
 #import "LTSBaseNavigationController.h"
+#import "LTSLoginViewController.h"
 
 @interface LTSPassWordViewController ()
 @property (strong, nonatomic)  LeftLabelTextField *tf_originalPwd;
@@ -133,7 +134,8 @@
             if ([responseObject[@"result"] isEqual:@1]) {
                 [self showSuccessInView:self.view hint:@"修改成功"];
                 dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-                    [self.navigationController popViewControllerAnimated:YES];
+                    LTSLoginViewController *logVc = [LTSLoginViewController new];
+                    [self presentViewController:logVc animated:YES completion:nil];
 
                 });
                 

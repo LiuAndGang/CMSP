@@ -54,6 +54,7 @@
     }
     return nil;
 }
+
 - (UIView *)findKeyboardInView:(UIView *)view
 {
     for (UIView *subView in [view subviews])

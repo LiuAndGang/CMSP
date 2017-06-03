@@ -10,21 +10,22 @@
 
 @implementation LTSNewsAndNoticeModel
 
-//-(void)setValue:(id)value forUndefinedKey:(NSString *)key{
-//    if ([key isEqualToString:@"title"]) {
-//        _mainTitle  = key;
-//    }
-//}
+-(void)setValue:(id)value forUndefinedKey:(NSString *)key{
+    if ([key isEqualToString:@"title"]) {
+        _mainTitle  = value;
+        
+    }
+}
 
 +(LTSNewsAndNoticeModel *)modelWithDict:(NSDictionary *)dict
 {
     
     LTSNewsAndNoticeModel *model = [LTSNewsAndNoticeModel new];
-//    [model setValuesForKeysWithDictionary:dict];
-    model.mainTitle = dict[@"title"];
-    model.context = dict[@"context"];
-    model.publicUserName = dict[@"publicUserName"];
-    model.publicDate  = dict[@"publicDate"];
+    [model setValuesForKeysWithDictionary:dict];
+//    model.mainTitle = dict[@"title"];
+//    model.context = dict[@"context"];
+//    model.publicUserName = dict[@"publicUserName"];
+//    model.publicDate  = dict[@"publicDate"];
     
     return  model;
 }

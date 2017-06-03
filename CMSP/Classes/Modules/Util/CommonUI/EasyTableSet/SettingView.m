@@ -40,7 +40,7 @@
     if (self) {
         self.backgroundColor = RGBCOLOR(239, 239, 239);
         self.separatorStyle = UITableViewCellSeparatorStyleNone;
-        self.sectionHeaderHeight = 10;
+        self.sectionHeaderHeight = 0;
         self.sectionFooterHeight = 0;
         self.delegate = self;
         self.dataSource = self;
@@ -65,7 +65,7 @@
         self.delegate = self;
         self.dataSource = self;
         
-        self.sectionHeaderHeight = 10;
+        self.sectionHeaderHeight = 0;
         self.sectionFooterHeight = 0;
 
         self.rowHeight = CellRowHeight;
@@ -127,19 +127,20 @@
     return group.header;
 }
 
-//- (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section{
-//    SettingGroup *group = self.groups[section];
-//    return group.footerView;
-//}
+- (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section{
+    SettingGroup *group = self.groups[section];
+    return group.footerView;
+}
 
-//- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section{
-//    SettingGroup *group = self.groups[section];
-//    if (group.footerView) {
-//        return CGRectGetHeight(group.footerView.frame);
-//    }
-//    
-//    return self.sectionFooterHeight;
-//}
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section{
+    SettingGroup *group = self.groups[section];
+    if (group.footerView) {
+        return CGRectGetHeight(group.footerView.frame);
+    }
+    
+    return self.sectionFooterHeight;
+}
+
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
     
     return self.sectionHeaderHeight;

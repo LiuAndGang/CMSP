@@ -77,12 +77,19 @@
 		38F5AFD91DF8E5B900C3B674 /* LTSAboutViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 38F5AFD81DF8E5B900C3B674 /* LTSAboutViewController.m */; };
 		38F5AFDC1DF8EACE00C3B674 /* SettingHeadImageItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 38F5AFDB1DF8EACE00C3B674 /* SettingHeadImageItem.m */; };
 		91BA8A34757A666F6D5E1875 /* Pods_CMSP.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 190771C116B7038805668F0D /* Pods_CMSP.framework */; };
+		C21E8AE11EDE6D6A00415C51 /* LTSMessageModel.m in Sources */ = {isa = PBXBuildFile; fileRef = C21E8AE01EDE6D6A00415C51 /* LTSMessageModel.m */; };
+		C21E8AE71EDE9C9500415C51 /* LTSMoreNoticeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C21E8AE61EDE9C9500415C51 /* LTSMoreNoticeViewController.m */; };
+		C21E8AEA1EDE9CAC00415C51 /* LTSMoreNewsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C21E8AE91EDE9CAC00415C51 /* LTSMoreNewsViewController.m */; };
+		C21E8AED1EDE9CC000415C51 /* LTSMoreMessageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C21E8AEC1EDE9CC000415C51 /* LTSMoreMessageViewController.m */; };
+		C21E8B2F1EDFB3CC00415C51 /* LTSNewsAndNoticeDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C21E8B2E1EDFB3CC00415C51 /* LTSNewsAndNoticeDetailViewController.m */; };
+		C21E8B321EE10ACE00415C51 /* LTSProjectVoidViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C21E8B311EE10ACE00415C51 /* LTSProjectVoidViewController.m */; };
 		C267851C1E9FC7CD00BA6797 /* LTSChangePassWordViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C267851B1E9FC7CD00BA6797 /* LTSChangePassWordViewController.m */; };
 		C27D35941EA9EFC400E75B4C /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C27D35931EA9EFC400E75B4C /* Images.xcassets */; };
 		C2873F5C1ED2C90D0043AE43 /* LTSCompanyNewsCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C2873F5B1ED2C90D0043AE43 /* LTSCompanyNewsCell.m */; };
 		C28C29DE1EA4A74E001F4FA5 /* LTSProjectDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C28C29DD1EA4A74E001F4FA5 /* LTSProjectDetailViewController.m */; };
 		C28FD2681ED40E6A00067E54 /* LTSNewsAndNoticeModel.m in Sources */ = {isa = PBXBuildFile; fileRef = C28FD2671ED40E6A00067E54 /* LTSNewsAndNoticeModel.m */; };
 		C28FD26E1ED57F2800067E54 /* LTSPassWordViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C28FD26D1ED57F2800067E54 /* LTSPassWordViewController.m */; };
+		C28FD2741ED7C66200067E54 /* SettingIdentifCodeItem.m in Sources */ = {isa = PBXBuildFile; fileRef = C28FD2731ED7C66200067E54 /* SettingIdentifCodeItem.m */; };
 		C297897D1E9B2B72007CC25B /* LTSPartnersRegisterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C297897C1E9B2B72007CC25B /* LTSPartnersRegisterViewController.m */; };
 		C2AACEC61EA45BD00018C63D /* CleanCache.m in Sources */ = {isa = PBXBuildFile; fileRef = C2AACEC51EA45BD00018C63D /* CleanCache.m */; };
 		C2ABAFB81E9CAB2D0066588C /* LeftLabelTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = C2ABAFB71E9CAB2D0066588C /* LeftLabelTextField.m */; };
@@ -263,6 +270,18 @@
 		38F5AFDA1DF8EACE00C3B674 /* SettingHeadImageItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingHeadImageItem.h; sourceTree = "<group>"; };
 		38F5AFDB1DF8EACE00C3B674 /* SettingHeadImageItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingHeadImageItem.m; sourceTree = "<group>"; };
 		9A629159B0E9C797BBD20578 /* Pods-CMSP.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CMSP.release.xcconfig"; path = "Pods/Target Support Files/Pods-CMSP/Pods-CMSP.release.xcconfig"; sourceTree = "<group>"; };
+		C21E8ADF1EDE6D6A00415C51 /* LTSMessageModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LTSMessageModel.h; sourceTree = "<group>"; };
+		C21E8AE01EDE6D6A00415C51 /* LTSMessageModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LTSMessageModel.m; sourceTree = "<group>"; };
+		C21E8AE51EDE9C9500415C51 /* LTSMoreNoticeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LTSMoreNoticeViewController.h; sourceTree = "<group>"; };
+		C21E8AE61EDE9C9500415C51 /* LTSMoreNoticeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LTSMoreNoticeViewController.m; sourceTree = "<group>"; };
+		C21E8AE81EDE9CAC00415C51 /* LTSMoreNewsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LTSMoreNewsViewController.h; sourceTree = "<group>"; };
+		C21E8AE91EDE9CAC00415C51 /* LTSMoreNewsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LTSMoreNewsViewController.m; sourceTree = "<group>"; };
+		C21E8AEB1EDE9CC000415C51 /* LTSMoreMessageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LTSMoreMessageViewController.h; sourceTree = "<group>"; };
+		C21E8AEC1EDE9CC000415C51 /* LTSMoreMessageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LTSMoreMessageViewController.m; sourceTree = "<group>"; };
+		C21E8B2D1EDFB3CC00415C51 /* LTSNewsAndNoticeDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LTSNewsAndNoticeDetailViewController.h; sourceTree = "<group>"; };
+		C21E8B2E1EDFB3CC00415C51 /* LTSNewsAndNoticeDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LTSNewsAndNoticeDetailViewController.m; sourceTree = "<group>"; };
+		C21E8B301EE10ACE00415C51 /* LTSProjectVoidViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LTSProjectVoidViewController.h; sourceTree = "<group>"; };
+		C21E8B311EE10ACE00415C51 /* LTSProjectVoidViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LTSProjectVoidViewController.m; sourceTree = "<group>"; };
 		C267851A1E9FC7CD00BA6797 /* LTSChangePassWordViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LTSChangePassWordViewController.h; sourceTree = "<group>"; };
 		C267851B1E9FC7CD00BA6797 /* LTSChangePassWordViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LTSChangePassWordViewController.m; sourceTree = "<group>"; };
 		C27D35931EA9EFC400E75B4C /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
@@ -274,6 +293,8 @@
 		C28FD2671ED40E6A00067E54 /* LTSNewsAndNoticeModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LTSNewsAndNoticeModel.m; sourceTree = "<group>"; };
 		C28FD26C1ED57F2800067E54 /* LTSPassWordViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LTSPassWordViewController.h; sourceTree = "<group>"; };
 		C28FD26D1ED57F2800067E54 /* LTSPassWordViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LTSPassWordViewController.m; sourceTree = "<group>"; };
+		C28FD2721ED7C66200067E54 /* SettingIdentifCodeItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingIdentifCodeItem.h; sourceTree = "<group>"; };
+		C28FD2731ED7C66200067E54 /* SettingIdentifCodeItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingIdentifCodeItem.m; sourceTree = "<group>"; };
 		C297897B1E9B2B72007CC25B /* LTSPartnersRegisterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LTSPartnersRegisterViewController.h; sourceTree = "<group>"; };
 		C297897C1E9B2B72007CC25B /* LTSPartnersRegisterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LTSPartnersRegisterViewController.m; sourceTree = "<group>"; };
 		C2AACEC41EA45BD00018C63D /* CleanCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CleanCache.h; sourceTree = "<group>"; };
@@ -680,6 +701,14 @@
 			children = (
 				38F5AF531DEFCF0B00C3B674 /* LTSHomeViewController.h */,
 				38F5AF541DEFCF0B00C3B674 /* LTSHomeViewController.m */,
+				C21E8AE51EDE9C9500415C51 /* LTSMoreNoticeViewController.h */,
+				C21E8AE61EDE9C9500415C51 /* LTSMoreNoticeViewController.m */,
+				C21E8AE81EDE9CAC00415C51 /* LTSMoreNewsViewController.h */,
+				C21E8AE91EDE9CAC00415C51 /* LTSMoreNewsViewController.m */,
+				C21E8AEB1EDE9CC000415C51 /* LTSMoreMessageViewController.h */,
+				C21E8AEC1EDE9CC000415C51 /* LTSMoreMessageViewController.m */,
+				C21E8B2D1EDFB3CC00415C51 /* LTSNewsAndNoticeDetailViewController.h */,
+				C21E8B2E1EDFB3CC00415C51 /* LTSNewsAndNoticeDetailViewController.m */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -689,6 +718,8 @@
 			children = (
 				C28FD2661ED40E6A00067E54 /* LTSNewsAndNoticeModel.h */,
 				C28FD2671ED40E6A00067E54 /* LTSNewsAndNoticeModel.m */,
+				C21E8ADF1EDE6D6A00415C51 /* LTSMessageModel.h */,
+				C21E8AE01EDE6D6A00415C51 /* LTSMessageModel.m */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -721,6 +752,8 @@
 				38F5AF571DEFCF1800C3B674 /* LTSProjectViewController.m */,
 				C28C29DC1EA4A74E001F4FA5 /* LTSProjectDetailViewController.h */,
 				C28C29DD1EA4A74E001F4FA5 /* LTSProjectDetailViewController.m */,
+				C21E8B301EE10ACE00415C51 /* LTSProjectVoidViewController.h */,
+				C21E8B311EE10ACE00415C51 /* LTSProjectVoidViewController.m */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -817,6 +850,8 @@
 				38F5AFB31DF6AB4700C3B674 /* SettingView.m */,
 				38F5AFB41DF6AB4700C3B674 /* SettingViewController.h */,
 				38F5AFB51DF6AB4700C3B674 /* SettingViewController.m */,
+				C28FD2721ED7C66200067E54 /* SettingIdentifCodeItem.h */,
+				C28FD2731ED7C66200067E54 /* SettingIdentifCodeItem.m */,
 			);
 			path = EasyTableSet;
 			sourceTree = "<group>";
@@ -1050,6 +1085,7 @@
 				3840EF8B1DF95CBC00EC8FCC /* JinnLockTool.m in Sources */,
 				3840EF8C1DF95CBC00EC8FCC /* JinnLockViewController.m in Sources */,
 				C28FD2681ED40E6A00067E54 /* LTSNewsAndNoticeModel.m in Sources */,
+				C21E8AEA1EDE9CAC00415C51 /* LTSMoreNewsViewController.m in Sources */,
 				38F5AF911DF6676200C3B674 /* WPAttributedStyleAction.m in Sources */,
 				38F5AF741DF65FE500C3B674 /* LTSRegisterViewController.m in Sources */,
 				3870844E1DEEB52E004DBBC1 /* UIColor+Common.m in Sources */,
@@ -1085,6 +1121,7 @@
 				38F5AF7A1DF6617A00C3B674 /* LTSEnterpriseRegisterViewController.m in Sources */,
 				38F5AF3D1DEFC2D000C3B674 /* LTSBaseViewModel.m in Sources */,
 				C2AACEC61EA45BD00018C63D /* CleanCache.m in Sources */,
+				C21E8B2F1EDFB3CC00415C51 /* LTSNewsAndNoticeDetailViewController.m in Sources */,
 				38F5AF2A1DEFADE800C3B674 /* LTSTabBarController.m in Sources */,
 				C2873F5C1ED2C90D0043AE43 /* LTSCompanyNewsCell.m in Sources */,
 				38F5AF831DF6654900C3B674 /* UIView+Common.m in Sources */,
@@ -1099,7 +1136,9 @@
 				38F5AFC01DF6AB4700C3B674 /* SettingView.m in Sources */,
 				387084301DEEADD9004DBBC1 /* UIViewController+HUD.m in Sources */,
 				38F5AF5E1DEFD53F00C3B674 /* UIImage+Common.m in Sources */,
+				C21E8AE11EDE6D6A00415C51 /* LTSMessageModel.m in Sources */,
 				38F5AF611DEFFDF000C3B674 /* LTSLoginViewController.m in Sources */,
+				C28FD2741ED7C66200067E54 /* SettingIdentifCodeItem.m in Sources */,
 				3801C1A01DFE2E7B004FA722 /* LTSAlertSheetView.m in Sources */,
 				38F5AF371DEFB05900C3B674 /* LTSUser.m in Sources */,
 				387084431DEEADFB004DBBC1 /* JQCyclingCycleAnimation.m in Sources */,
@@ -1114,7 +1153,10 @@
 				3801C19D1DFE2DD5004FA722 /* LTSBaseAlertView.m in Sources */,
 				38F5AFBF1DF6AB4700C3B674 /* SettingTextFieldItem.m in Sources */,
 				3840EF8A1DF95CBC00EC8FCC /* JinnLockSudoko.m in Sources */,
+				C21E8AE71EDE9C9500415C51 /* LTSMoreNoticeViewController.m in Sources */,
+				C21E8AED1EDE9CC000415C51 /* LTSMoreMessageViewController.m in Sources */,
 				38F5AF6B1DF024ED00C3B674 /* UITextField+Common.m in Sources */,
+				C21E8B321EE10ACE00415C51 /* LTSProjectVoidViewController.m in Sources */,
 				38F5AFB71DF6AB4700C3B674 /* SettingCell.m in Sources */,
 				3801C1A31DFE2EAA004FA722 /* LTSCustomButton.m in Sources */,
 				387084441DEEADFB004DBBC1 /* JQCyclingLineAnimation.m in Sources */,

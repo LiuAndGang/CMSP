@@ -28,7 +28,7 @@
     //停留1s再进主界面---启动页
     [NSThread sleepForTimeInterval:1.0];
     
-     [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
+    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
     [[UIApplication sharedApplication] setStatusBarHidden:NO];
     
     self.window = [[UIWindow alloc]initWithFrame:[UIScreen mainScreen].bounds];
@@ -100,12 +100,17 @@
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     
     NSLog(@"%@",@"^^^^^^^^^^^^^^^^^^^^^^");
+    
     if ([LTSUserDefault boolForKey:KPath_AutoLogin]) {
         [LTSUserDefault setBool:YES forKey:KPath_UserLoginState];
     }else{
+        //没有点击 自动登录 的时候点击 随便看看  账户页面-名字不显示
         [LTSUserDefault setBool:NO forKey:KPath_UserLoginState];
-  
+        //当点击随便看看的时候去掉 首页-消息控件
+        [LTSUserDefault setObject:nil forKey:Login_Token];
     }
+    
+    
     
 }
 

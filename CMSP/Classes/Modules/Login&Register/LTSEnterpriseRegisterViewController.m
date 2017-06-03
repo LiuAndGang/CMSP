@@ -147,7 +147,7 @@
         //        tableView.sectionHeaderHeight = MoreTableViewHeaderHeight;
         tableView.rowHeight = 44;
         tableView.sectionHeaderHeight = 0;
-        tableView.sectionFooterHeight = 10;
+        tableView.sectionFooterHeight = 0;
         tableView.bottomLineLeftOffset = 0;
         [self.view addSubview:tableView];
         [tableView mas_updateConstraints:^(MASConstraintMaker *make) {

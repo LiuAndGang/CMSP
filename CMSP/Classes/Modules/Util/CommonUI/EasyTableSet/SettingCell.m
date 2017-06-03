@@ -104,6 +104,7 @@
     }
     return _detailLabel;
 }
+
 //箭头视图
 //- (UIImageView *)arrowView
 //{
@@ -193,6 +194,7 @@
     }
     return _textField;
 }
+
 - (UIImageView *)headImageView{
     if (!_headImageView) {
         _headImageView = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"headerDefault"]];

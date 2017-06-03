@@ -160,7 +160,7 @@
 //        tableView.sectionFooterHeight = 110;
         tableView.rowHeight = 44;
         tableView.sectionHeaderHeight = 0;
-        tableView.sectionFooterHeight = 10;
+        tableView.sectionFooterHeight = 0;
         tableView.bottomLineLeftOffset = 0;
         tableView.tableFooterView.hidden = YES;
         [self.view addSubview:tableView];

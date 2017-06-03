@@ -36,6 +36,7 @@
     LTSPartnersRegisterViewController *partner= [LTSPartnersRegisterViewController new];
     LTSEnterpriseRegisterViewController *enterprise= [LTSEnterpriseRegisterViewController new];
     _segmentView.segmentViewSelectIndexBlock = ^(NSUInteger index){
+        personal.curIndex = index;
         partner.curIndex = index;
         enterprise.curIndex = index;
     };

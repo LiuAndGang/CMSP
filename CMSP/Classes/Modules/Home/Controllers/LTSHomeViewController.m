@@ -11,6 +11,11 @@
 #import "SDCycleScrollView.h"
 #import "LTSCompanyNewsCell.h"
 #import "LTSNewsAndNoticeModel.h"
+#import "LTSMessageModel.h"
+#import "LTSMoreNoticeViewController.h"
+#import "LTSMoreNewsViewController.h"
+#import "LTSMoreMessageViewController.h"
+#import "LTSNewsAndNoticeDetailViewController.h"
 #define CycleScrollViewHeight (Screen_Width * (204 / 375.0))
 @interface LTSHomeViewController ()<SDCycleScrollViewDelegate,UITableViewDelegate,UITableViewDataSource>
 @property (nonatomic,strong)UIScrollView *scrollView;
@@ -32,10 +37,11 @@
 @property(nonatomic,assign)NSInteger rows;
 /**公告数据数组*/
 @property (nonatomic,strong) NSMutableArray *noticeDatas;
+/**新闻数据数组*/
+@property (nonatomic,strong) NSMutableArray *newsDatas;
 /**消息数据数组*/
 @property (nonatomic,strong) NSMutableArray *messageDatas;
-/**总数据数组*/
-@property (nonatomic,strong) NSMutableArray *datas;
+
 @end
 
 @implementation LTSHomeViewController
@@ -47,19 +53,19 @@
     }
     return _noticeDatas;
 }
+-(NSMutableArray *)newsDatas
+{
+    if (!_newsDatas) {
+        _newsDatas  = [[NSMutableArray alloc] init];
+    }
+    return _newsDatas;
+}
 -(NSMutableArray *)messageDatas
 {
     if (!_messageDatas) {
         _messageDatas  = [[NSMutableArray alloc] init];
     }
     return _messageDatas;
-}
--(NSMutableArray *)datas
-{
-    if (!_datas) {
-        _datas  = [[NSMutableArray alloc] init];
-    }
-    return _datas;
 }
 
 
@@ -92,14 +98,15 @@
 -(void)initData{
     _page = 0;
     _rows = 4;
+    //公告数据
     [LTSDBManager POST:[kLTSDBBaseUrl stringByAppendingString:KLTSDBNewsAndNotice] params:@{@"type":@"C",@"page":[NSNumber numberWithInteger:_page],@"rows":[NSNumber numberWithInteger:_rows]} block:^(id responseObject, NSError *error) {
         if(responseObject) {
-            NSLog(@"responseObject:%@",responseObject);
+//            NSLog(@"responseObject:%@",responseObject);
             NSArray *tempArray = responseObject[@"rows"];
             for (NSDictionary *dict in tempArray) {
                 LTSNewsAndNoticeModel *model = [LTSNewsAndNoticeModel modelWithDict:dict];
                 [self.noticeDatas addObject:model];
-                [_datas addObject:model];
+                
             }
             [_tableView reloadData];
             LTSNewsAndNoticeModel *model = _noticeDatas[0];
@@ -111,26 +118,40 @@
         }
     }];
     
+    //新闻数据
     [LTSDBManager POST:[kLTSDBBaseUrl stringByAppendingString:KLTSDBNewsAndNotice] params:@{@"type":@"N",@"page":[NSNumber numberWithInteger:_page],@"rows":[NSNumber numberWithInteger:_rows]} block:^(id responseObject, NSError *error) {
         if(responseObject) {
-            NSLog(@"responseObject:%@",responseObject);
+//            NSLog(@"responseObject:%@",responseObject);
             NSArray *tempArray = responseObject[@"rows"];
             for (NSDictionary *dict in tempArray) {
                 LTSNewsAndNoticeModel *model = [LTSNewsAndNoticeModel modelWithDict:dict];
-                [self.messageDatas addObject:model];
-                [_datas addObject:model];
+                [self.newsDatas addObject:model];
+                
             }
             [_tableView reloadData];
-            LTSNewsAndNoticeModel *model = _messageDatas[0];
-            //去掉左右两边的空格和换行符
-            _messageContentLabel.text = [model.mainTitle stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
-
-            NSLog(@"messageData数组数量：%ld",self.messageDatas.count);
-            NSLog(@"data数组数量：%ld",self.datas.count);
+            NSLog(@"newsDatas数组数量：%ld",self.newsDatas.count);
         }else{
             NSLog(@"error:%@",error);
         }
     }];
+    
+    //消息数据
+    if (![[LTSUserDefault objectForKey:@"organ_flag"] isEqual:@0] && [LTSUserDefault objectForKey:Login_Token]) {
+       
+//        [LTSDBManager POST:[kLTSDBBaseUrl stringByAppendingString:KLTSDBMessage] params:@{@"cif_account":[LTSUserDefault objectForKey:@"cif_account"]} block:^(id responseObject, NSError *error) {
+//            NSLog(@"-----------------%@",responseObject);
+//            NSArray *tempArray = responseObject[@"row"];
+//            for (NSDictionary *dict in tempArray) {
+//                LTSMessageModel *model = [LTSMessageModel modelWithDict:dict];
+//                [self.messageDatas addObject:model];
+//            }
+//            NSLog(@"messageData数组数量：%ld",self.messageDatas.count);
+//            //去掉左右两边的空格和换行符
+//            LTSMessageModel *model = _messageDatas[0];
+//            _messageContentLabel.text = [model.messageTitle stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+//        }];
+
+    }
 
 }
 
@@ -260,7 +281,7 @@
         make.width.mas_equalTo(25);
         make.height.mas_equalTo(25);
     }];
-    UIImageView *arrowImage = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"icon_arrow"]];
+    UIImageView *arrowImage = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"icon_more"]];
     [noticeView addSubview:arrowImage];
     [arrowImage mas_makeConstraints:^(MASConstraintMaker *make) {
         make.right.mas_equalTo(noticeView).with.offset(-10);
@@ -300,6 +321,7 @@
             make.height.mas_equalTo(1);
         }];
     }
+    
     //消息
     UIView *messageView = [[UIView alloc] init];
     messageView.backgroundColor = [UIColor whiteColor];
@@ -318,7 +340,7 @@
         make.width.mas_equalTo(25);
         make.height.mas_equalTo(25);
     }];
-    UIImageView *messageArrowImage = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"icon_arrow"]];
+    UIImageView *messageArrowImage = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"icon_more"]];
     [messageView addSubview:messageArrowImage];
     [messageArrowImage mas_makeConstraints:^(MASConstraintMaker *make) {
         make.right.mas_equalTo(messageView).with.offset(-10);
@@ -345,6 +367,13 @@
     messageTap.numberOfTouchesRequired = 1;
     [messageView addGestureRecognizer:messageTap];
 
+    //个人登录和随便看看隐藏 消息 控件
+    if ([[LTSUserDefault objectForKey:@"organ_flag"] isEqual:@0] || ![LTSUserDefault objectForKey:Login_Token]) {
+        [messageView removeFromSuperview];
+        baseView.frame = CGRectMake(0, 0, SCREEN_W, CycleScrollViewHeight+44+10*3+100+44*1);
+
+    }
+    
     
     //公司新闻
     _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_W, SCREEN_H- 44) style:UITableViewStyleGrouped];
@@ -362,9 +391,8 @@
 //    }];
     //注册表格
     [_tableView registerClass:[LTSCompanyNewsCell class] forCellReuseIdentifier:@"newsCell"];
-    
-    
 }
+
 
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
     return 1;
@@ -372,15 +400,15 @@
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    NSLog(@"cell数：%ld",self.datas.count);
-    return self.datas.count;
+    NSLog(@"cell数：%ld",self.newsDatas.count);
+    return self.newsDatas.count;
 }
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     
     NSString *ident = @"newsCell";
     LTSCompanyNewsCell *cell = [tableView dequeueReusableCellWithIdentifier:ident forIndexPath:indexPath];
     //模型赋值
-    LTSNewsAndNoticeModel *model = _datas[indexPath.row];
+    LTSNewsAndNoticeModel *model = _newsDatas[indexPath.row];
     cell.model = model;
 
     return cell;
@@ -391,10 +419,6 @@
     return 86;
 }
 
--(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    [tableView deselectRowAtIndexPath:indexPath animated:YES];
-}
 
 //组头
 -(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
@@ -436,12 +460,15 @@
 {
     return 30;
 }
+//设置组尾高度为 -CGFLOAT_MIN,以此来取消组头，设置为0不管用
 -(CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section{
-    return 0;
+    return 10.0;
 }
 
 -(void)noticeTap:(UITapGestureRecognizer *)tap{
     NSLog(@"点击了公告");
+    LTSMoreNoticeViewController *moreNoticeVc = [LTSMoreNoticeViewController new];
+    [self.navigationController pushViewController:moreNoticeVc animated:YES];
 }
 
 -(void)messageTap:(UITapGestureRecognizer *)tap{
@@ -450,6 +477,23 @@
 
 -(void)moreNewsTap:(UITapGestureRecognizer *)tap{
     NSLog(@"点击了获取更多新闻");
+    LTSMoreNewsViewController *newsVc = [LTSMoreNewsViewController new];
+    [self.navigationController pushViewController:newsVc animated:YES];
+
+}
+//点击了cell
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    
+    LTSNewsAndNoticeDetailViewController *detailVc = [LTSNewsAndNoticeDetailViewController new];
+    LTSNewsAndNoticeModel *model = _newsDatas[indexPath.row];
+    detailVc.detailTitle = model.mainTitle;
+    detailVc.detailContext = model.context;
+    detailVc.detailDate = model.publicDate;
+    detailVc.detailPubUser = model.publicUserName;
+    detailVc.naviTitle = @"新闻详情";
+    [self.navigationController pushViewController:detailVc animated:YES];
 }
 
 

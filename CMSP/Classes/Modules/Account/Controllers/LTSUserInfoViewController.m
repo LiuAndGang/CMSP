@@ -273,7 +273,9 @@
                 [LTSUserDefault setBool:0 forKey:KPath_UserLoginState];
                 [LTSUserDefault setBool:0 forKey:KPath_AutoLogin];
                 [LTSUserDefault setObject:nil forKey:Login_Token];
-               
+                [LTSUserDefault setObject:nil forKey:@"organ_flag"];
+
+                
                 //根据bundleID清空所有本地数据
                 NSString*appDomain = [[NSBundle mainBundle] bundleIdentifier];
                 [LTSUserDefault removePersistentDomainForName:appDomain];

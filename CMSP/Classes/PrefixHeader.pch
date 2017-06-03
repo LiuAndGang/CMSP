@@ -44,8 +44,6 @@
 
 /**数据请求管理类*/
 #define LTSDBManager [LTSDBClickManager sharedManager]
-/**获取验证码*/
-#define   kLTSDBGetVerifyCode    @"customUserConfig!getVerifyCode.action"
 
 //屏幕宽高
 #define SCREEN_W (self.view.bounds.size.width)

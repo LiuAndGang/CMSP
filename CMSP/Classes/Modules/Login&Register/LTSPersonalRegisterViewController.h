@@ -9,5 +9,6 @@
 #import "LTSBaseViewController.h"
 
 @interface LTSPersonalRegisterViewController : LTSBaseViewController
+@property(nonatomic,assign) NSUInteger curIndex;
 
 @end

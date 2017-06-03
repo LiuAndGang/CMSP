@@ -30,6 +30,8 @@ static const void *HttpRequestHUDKey = &HttpRequestHUDKey;
     [self.HUD.customView addSubview:indicatorView];
     indicatorView.center = CGPointMake(35, 30);
     [indicatorView startAnimating];
+    [self hideHud];
+
 }
 
 - (void)showErrorInView:(UIView *)view hint:(NSString *)hint{

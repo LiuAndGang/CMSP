@@ -10,6 +10,7 @@
 
 #import "LTSBaseNavigationController.h"
 #import "LTSLoginViewController.h"
+#import "LTSProjectVoidViewController.h"
 
 
 #define kClassKey   @"rootVCClassString"
@@ -86,6 +87,14 @@
         vc.title = dict[kTitleKey];
         self.tabBar.tintColor = OrangeColor;
         LTSBaseNavigationController *nav = [[LTSBaseNavigationController alloc] initWithRootViewController:vc];
+        if ([nav.topViewController.title isEqualToString:@"项目"]) {
+            if ([[LTSUserDefault objectForKey:@"organ_flag"] isEqual:@0] || ![LTSUserDefault objectForKey:Login_Token]) {
+                LTSProjectVoidViewController *projectVoidVc = [LTSProjectVoidViewController new];
+                projectVoidVc.title = dict[kTitleKey];
+                nav = [[LTSBaseNavigationController alloc] initWithRootViewController:projectVoidVc];
+
+            }
+        }
         
         UITabBarItem *item = nav.tabBarItem;
         item.title = dict[kTitleKey];
@@ -97,6 +106,10 @@
     }];
     
     self.tabBar.backgroundColor = [UIColor whiteColor];
+    
+//    LTSProjectVoidViewController *projectVoidVc = [LTSProjectVoidViewController new];
+//    LTSBaseNavigationController *nav = [[LTSBaseNavigationController alloc] initWithRootViewController:projectVoidVc];
+//    [self.tabBarController.viewControllers replace];
 }
 
 
