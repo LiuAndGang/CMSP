@@ -399,7 +399,7 @@
 //        NSString *logName = [_itemLogName.text stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
 
         //转换登录用户类型
-        NSString *login_user_type = [LTSLogTypeTransition logTypeTransition];
+        NSString *login_user_type = @"-7";
         
         [LTSDBManager POST:[kLTSDBBaseUrl stringByAppendingString:kLTSDBRegUser]params:@{@"login_user_type":login_user_type,@"id_kind":_id_kind_return,@"logName":_itemLogName.text,@"password":_itemPassword.text,@"company_name":_itemEntName.text,@"org_code":_itemCredentialsNum.text,@"real_name":_itemConnectPeople.text,@"mobile_phone":_itemPhoneNum.text} block:^(id responseObject, NSError *error) {
             if ([responseObject[@"result"] isEqual:@1]) {

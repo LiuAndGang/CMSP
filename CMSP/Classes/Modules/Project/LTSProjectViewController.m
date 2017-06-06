@@ -70,7 +70,7 @@
 
 - (void)initData
 {
-    _url = [NSURL URLWithString:[[kLTSDBBaseUrl stringByAppendingString:KLTSDBProject] stringByAppendingFormat:@"?cif_account=%@",[LTSUserDefault objectForKey:@"cif_account"]]];
+    self.url = [NSURL URLWithString:[[kLTSDBBaseUrl stringByAppendingString:KLTSDBProject] stringByAppendingFormat:@"?cif_account=%@",[LTSUserDefault objectForKey:@"cif_account"]]];
     dispatch_async(dispatch_get_global_queue(0, 0), ^{
         if (self.url) {
             
@@ -121,7 +121,7 @@
     } else {//截获页面里面的链接点击
         LTSProjectDetailViewController *detailVC = [LTSProjectDetailViewController new];
         
-        detailVC.url = [NSURL URLWithString:requestString];
+        detailVC.url = [NSURL URLWithString:[requestString stringByAppendingFormat:@"?cif_account=%@",[LTSUserDefault objectForKey:@"cif_account"]]];
         NSLog(@"detail.url:%@",detailVC.url);
         [self.navigationController pushViewController:detailVC animated:YES];
         

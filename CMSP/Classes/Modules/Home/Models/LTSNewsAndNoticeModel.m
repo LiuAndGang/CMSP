@@ -13,8 +13,10 @@
 -(void)setValue:(id)value forUndefinedKey:(NSString *)key{
     if ([key isEqualToString:@"title"]) {
         _mainTitle  = value;
-        
+    }else if ([key isEqualToString:@"files"]){
+        _imageString = value;
     }
+    
 }
 
 +(LTSNewsAndNoticeModel *)modelWithDict:(NSDictionary *)dict

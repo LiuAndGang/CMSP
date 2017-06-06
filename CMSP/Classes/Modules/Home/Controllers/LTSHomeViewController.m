@@ -438,9 +438,9 @@
     }];
     
     UIImageView *imageView = [[UIImageView alloc] init];
-    imageView.backgroundColor = [UIColor grayColor];
+//    imageView.backgroundColor = [UIColor grayColor];
     [headerView addSubview:imageView];
-    imageView.image = [UIImage imageNamed:@""];
+    imageView.image = [UIImage imageNamed:@"more"];
     [imageView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(headerView);
         make.right.mas_equalTo(headerView.mas_right).with.offset(-10);
@@ -450,7 +450,7 @@
     UITapGestureRecognizer *moreNewsTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(moreNewsTap:)];
     moreNewsTap.numberOfTapsRequired = 1;
     moreNewsTap.numberOfTouchesRequired = 1;
-    [imageView addGestureRecognizer:moreNewsTap];
+    [headerView addGestureRecognizer:moreNewsTap];
     imageView.userInteractionEnabled = YES;
     
     return headerView;

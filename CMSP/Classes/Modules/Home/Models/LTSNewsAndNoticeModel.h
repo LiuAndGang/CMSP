@@ -19,7 +19,8 @@
 @property(nonatomic,copy) NSString * publicUserName;
 /**发布时间*/
 @property(nonatomic,copy) NSString * publicDate;
-
+/**新闻图片*/
+@property(nonatomic,copy) NSString * imageString;
 
 +(LTSNewsAndNoticeModel *)modelWithDict:(NSDictionary *)dict;
 

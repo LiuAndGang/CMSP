@@ -10,6 +10,7 @@
 #import "LTSCompanyNewsCell.h"
 #import "LTSNewsAndNoticeModel.h"
 #import "LTSNewsAndNoticeDetailViewController.h"
+#import "MJRefresh.h"
 @interface LTSMoreNewsViewController ()<UITableViewDelegate,UITableViewDataSource>
 @property (nonatomic,strong) UITableView *tableView;
 @property (nonatomic,strong) UIButton *backBtn;
@@ -40,24 +41,51 @@
     [super viewDidLoad];
     
     self.title = @"新闻";
+    _page = 0;
+    _rows = 10;
+
     [self initNavBar];
 }
 
 -(void)initData{
-    _page = 0;
-    _rows = 10;
 
     //新闻数据
     [LTSDBManager POST:[kLTSDBBaseUrl stringByAppendingString:KLTSDBNewsAndNotice] params:@{@"type":@"N",@"page":[NSNumber numberWithInteger:_page],@"rows":[NSNumber numberWithInteger:_rows]} block:^(id responseObject, NSError *error) {
         if(responseObject) {
-            //            NSLog(@"responseObject:%@",responseObject);
+
+            //如果为_page==0 则清空数组，重新添加数组
+            if (_page == 0) {
+                [self.newsDatas removeAllObjects];
+            }
+            
+            //如果数组数量大于或者等于总条数则停止上拉加载
+            if (_newsDatas.count == [responseObject[@"total"] integerValue] || _newsDatas.count > [responseObject[@"total"] integerValue]) {
+                [_tableView.mj_footer endRefreshing];
+                _tableView.mj_footer.state = MJRefreshStateNoMoreData;
+                return;
+            }
+            
             NSArray *tempArray = responseObject[@"rows"];
             for (NSDictionary *dict in tempArray) {
                 LTSNewsAndNoticeModel *model = [LTSNewsAndNoticeModel modelWithDict:dict];
                 [self.newsDatas addObject:model];
                 
             }
+            
+
+            
             [_tableView reloadData];
+            
+            //结束下拉刷新和上拉加载
+            if ([_tableView.mj_header isRefreshing]) {
+                [_tableView.mj_header endRefreshing];
+
+            }
+            if ([_tableView.mj_footer isRefreshing]) {
+                [_tableView.mj_footer endRefreshing];
+  
+            }
+
             NSLog(@"newsDatas数组数量：%ld",self.newsDatas.count);
         }else{
             NSLog(@"error:%@",error);
@@ -96,7 +124,35 @@
     //注册cell
     [_tableView registerClass:[LTSCompanyNewsCell class] forCellReuseIdentifier:@"cell"];
     
+    //添加下拉刷新控件
+    __weak typeof(self) weakSelf = self;
+    _tableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
+        [weakSelf refresh];
+    }];
+    
+    _tableView.mj_footer = [MJRefreshAutoNormalFooter footerWithRefreshingBlock:^{
+        [weakSelf loadMore];
+    }];
+
 }
+
+//下拉刷新
+-(void)refresh
+{
+    _page = 0;
+    _rows = 10;
+    [self initData];
+}
+
+//上拉加载
+-(void)loadMore
+{
+    _page++;
+    _rows = 10;
+    [self initData];
+}
+
+
 
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
     return 1;

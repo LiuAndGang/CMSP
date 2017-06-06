@@ -54,7 +54,7 @@
 @property (nonatomic,strong) UIAlertController *alertController;
 /**0 个人     1企业      2合作机构*/
 @property (nonatomic,assign)NSInteger userType;
-/**用户账号类型----个人用户名:3 ; 企业用户名:7；个人邮箱:2 ，企业邮箱:6; 合作机构:-7  */
+/**用户账号类型----个人手机:1 , 个人用户名:3 , 企业用户名:7 ,个人邮箱:2 ，企业邮箱:6 ,合作机构:-7  */
 @property(nonatomic,copy) NSString * userLoginType;
 
 @property (nonatomic,strong) UIAlertAction *userNameAction;
@@ -337,9 +337,6 @@
         
         button;});
     
-    
-    
-   
 }
 
 
@@ -369,12 +366,16 @@
             //        _userNameAction = [UIAlertAction actionWithTitle:@"用户名" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
             //            [self.accountTypeBtn setTitle:@"用户名" forState:UIControlStateNormal];
             //        }];
+            UIAlertAction *phoneAction = [UIAlertAction actionWithTitle:@"个人手机" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+                [self.accountTypeBtn setTitle:@"个人手机" forState:UIControlStateNormal];
+            }];
             _emailAction = [UIAlertAction actionWithTitle:@"个人邮箱" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
                 [self.accountTypeBtn setTitle:@"个人邮箱" forState:UIControlStateNormal];
             }];
             [alertController addAction:cancelAction];
 //            [alertController addAction:_userNameAction];
             [alertController addAction:_emailAction];
+            [alertController addAction:phoneAction];
             [self presentViewController:alertController animated:YES completion:nil];
         }
         
@@ -422,6 +423,8 @@
                 self.userLoginType = @"3";//个人用户名
             }else if ([_accountTypeBtn.titleLabel.text isEqualToString:@"个人邮箱"]){
                 self.userLoginType = @"2";//个人邮箱
+            }else if ([_accountTypeBtn.titleLabel.text isEqualToString:@"个人手机"]){
+                self.userLoginType = @"1";//个人手机
             }else{
                 [ActivityHub ShowHub:@"请选择账号类型"];
                 return;
@@ -603,6 +606,7 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+
 
 /*
 #pragma mark - Navigation

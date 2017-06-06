@@ -493,9 +493,9 @@
 
         
         //转换登录用户类型
-//        NSString *login_user_type = [LTSLogTypeTransition logTypeTransition];
+        NSString *login_user_type = @"11";
         
-        [LTSDBManager POST:[kLTSDBBaseUrl stringByAppendingString:KLTSDBPresonal] params:@{@"login_user_type":@"11",@"id_kind":_id_kind_return,@"logName":_itemLogName.text,@"password":_itemPassword.text,@"person_code":_itemCredentialsNum.text,@"msg_code":_codeTextField.text,@"real_name":_itemConnectPeople.text,@"mobile_phone":_itemPhoneNum.text,@"msg_data":self.msg_data} block:^(id responseObject, NSError *error) {
+        [LTSDBManager POST:[kLTSDBBaseUrl stringByAppendingString:KLTSDBPresonal] params:@{@"login_user_type":login_user_type,@"id_kind":_id_kind_return,@"logName":_itemLogName.text,@"password":_itemPassword.text,@"person_code":_itemCredentialsNum.text,@"msg_code":_codeTextField.text,@"real_name":_itemConnectPeople.text,@"mobile_phone":_itemPhoneNum.text,@"msg_data":self.msg_data} block:^(id responseObject, NSError *error) {
             if ([responseObject[@"result"] isEqual:@1]) {
                 NSLog(@"用户注册成功")
                 NSLog(@"responseObject:%@",responseObject);

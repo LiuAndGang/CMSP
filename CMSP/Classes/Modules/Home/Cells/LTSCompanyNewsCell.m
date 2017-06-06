@@ -77,8 +77,12 @@
 //    self.model = model;
     _titleLabel.text = model.mainTitle;
     _detailLabel.text = [model.context stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
-    _dateLabel.text = model.publicDate;
-    [_newsImageView sd_setImageWithURL:[NSURL URLWithString:@""] placeholderImage:[UIImage imageNamed:@"newspic"]];
+    
+    //切割日期后边的不必要字符串
+    NSRange range = [model.publicDate rangeOfString:@" 00:00:00.0"];
+    _dateLabel.text = [model.publicDate substringToIndex:range.location];
+    
+    [_newsImageView sd_setImageWithURL:[NSURL URLWithString:model.imageString] placeholderImage:[UIImage imageNamed:@"newspic"]];
 }
 
 

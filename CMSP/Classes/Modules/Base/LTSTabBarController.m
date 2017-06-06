@@ -82,7 +82,9 @@
                                    kSelImgKey : @"icon_account_selected"}
                                  ];
     
+    //数组block遍历
     [childItemsArray enumerateObjectsUsingBlock:^(NSDictionary *dict, NSUInteger idx, BOOL *stop) {
+        
         UIViewController *vc = [NSClassFromString(dict[kClassKey]) new];
         vc.title = dict[kTitleKey];
         self.tabBar.tintColor = OrangeColor;

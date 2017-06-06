@@ -308,9 +308,11 @@
     cell.textLabel.text = _dataSource[indexPath.section][indexPath.row];
     cell.textLabel.textColor = HexColor(@"#676769");
     cell.textLabel.font = [UIFont systemFontOfSize:15];
-    if ([[LTSUserDefault objectForKey:KPath_UserLoginType] isEqualToString:@"1"]) {//不是个人用户和企业用户的时候
-        cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-    }else if ([cell.textLabel.text isEqualToString:@"手机号"]){
+    
+//    if ([[LTSUserDefault objectForKey:KPath_UserLoginType] isEqualToString:@"1"]) {//不是个人用户和企业用户的时候
+//        cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+//    }else
+    if ([cell.textLabel.text isEqualToString:@"手机号"]){
         cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
 
     }
@@ -353,7 +355,7 @@
     UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
     
 
-    if (cell.accessoryType == UITableViewCellAccessoryDisclosureIndicator) {
+    if (cell.accessoryType == UITableViewCellAccessoryDisclosureIndicator) {//如果带箭头才能点击
         //手势密码
         if (indexPath.section == 3) {
             if (indexPath.row == 1) {

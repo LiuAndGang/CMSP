@@ -72,7 +72,10 @@
 //    dateLabel.backgroundColor = [UIColor redColor];
     dateLabel.font = [UIFont systemFontOfSize:15];
     dateLabel.textColor = HexColor(@"#949496");
-    dateLabel.text = self.detailDate;
+    //切割日期后边的不必要字符串
+    NSRange range = [self.detailDate rangeOfString:@" 00:00:00.0"];
+    dateLabel.text = [self.detailDate substringToIndex:range.location];
+    
     [scrollView addSubview:dateLabel];
     [dateLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(titleLabel.mas_bottom).with.offset(10);
