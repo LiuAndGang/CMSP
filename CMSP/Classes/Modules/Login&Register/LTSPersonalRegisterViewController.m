@@ -238,14 +238,14 @@
     
 
     //设置登录名
-    _itemLogName  = [SettingTextFieldItem itemWithTitle:@"登录名:"];
+    _itemLogName  = [SettingTextFieldItem itemWithTitle:@"账号:"];
     _itemLogName.placeHolder = @"必填且只能是手机号码";
     _itemLogName.textInputBlock = ^(NSString *text){
         
     };
     
     //设置登录密码
-    _itemPassword = [SettingTextFieldItem itemWithTitle:@"设置登录密码:"];
+    _itemPassword = [SettingTextFieldItem itemWithTitle:@"设置密码:"];
     _itemPassword.secureTextEntry = YES;
     _itemPassword.placeHolder = @"必填";
     _itemPassword.textInputBlock = ^(NSString *text){
@@ -253,7 +253,7 @@
     };
     
     //设置登录密码
-    _itemRepassword = [SettingTextFieldItem itemWithTitle:@"再次输入登录密码:"];
+    _itemRepassword = [SettingTextFieldItem itemWithTitle:@"再次输入密码:"];
     _itemRepassword.secureTextEntry = YES;
     _itemRepassword.placeHolder = @"必填";
     _itemRepassword.textInputBlock = ^(NSString *text){

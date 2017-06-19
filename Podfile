@@ -13,5 +13,5 @@ pod 'WebViewJavascriptBridge'  #js webView互相调用
 pod 'MJExtension'  #字典 模型 互转
 pod 'SDCycleScrollView'
 pod 'XMPPFramework', :git => "https://github.com/robbiehanson/XMPPFramework.git", :branch => 'master'
-
+pod 'FLEX'
 end

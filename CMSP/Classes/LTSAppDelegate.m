@@ -11,6 +11,11 @@
 #import "LTSLoginViewController.h"
 #import "LTSBaseNavigationController.h"
 #import "JinnLockViewController.h"
+
+#if DEBUG
+#import "FLEXManager.h"
+#endif
+
 @interface LTSAppDelegate ()<JinnLockViewControllerDelegate>
 @property (nonatomic, strong) UINavigationController *navigationController;
 @end
@@ -24,6 +29,7 @@
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+//    [[FLEXManager sharedManager] showExplorer];
     
     //停留1s再进主界面---启动页
     [NSThread sleepForTimeInterval:1.0];
@@ -32,8 +38,8 @@
     [[UIApplication sharedApplication] setStatusBarHidden:NO];
     
     self.window = [[UIWindow alloc]initWithFrame:[UIScreen mainScreen].bounds];
-
-
+    
+    
     //是否自动登录
     BOOL isAutoLogin = [LTSUserDefault boolForKey:KPath_AutoLogin];
     

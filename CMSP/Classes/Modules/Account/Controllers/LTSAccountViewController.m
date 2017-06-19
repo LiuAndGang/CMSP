@@ -35,6 +35,12 @@
 
 /**用户信息字典*/
 @property (nonatomic,strong) NSMutableDictionary *userInfoDic;
+/**App Store版本是否大于当前版本   11--有新版本   22--没有新版本*/
+@property (nonatomic,assign) int versionData;
+/**App Store版本号*/
+@property (nonatomic,copy) NSString *storeVersion;
+
+
 
 @end
 
@@ -72,24 +78,37 @@
     
 
     //转换登录用户类型
-    NSString *login_user_type = [LTSLogTypeTransition logTypeTransition];
+//    NSString *login_user_type = [LTSLogTypeTransition logTypeTransition];
 
     
-    //判断登录状态，如果登录就获取信息
-//    if ([LTSUserDefault objectForKey:Login_Token]) {
-//        
-//        [LTSDBManager POST:[kLTSDBBaseUrl stringByAppendingString:KLTSDBGainUserInfo] params:@{@"login_user_type":login_user_type,@"logName":[LTSUserDefault objectForKey:@"logName"]} block:^(id responseObject, NSError *error) {
-//            if ([responseObject[@"result"] isEqual:@1]) {
-//                NSLog(@"获取用户详情成功");
-//                [self.userInfoDic setValue:[responseObject[@"data"][@"real_name"] stringByRemovingPercentEncoding] forKey:@"真实姓名"];
-//                _nameLabel.text = _userInfoDic[@"真实姓名"];
-//                
-//            }else{
-//                NSLog(@"获取详情失败");
-//            }
-//        }];
-//
-//    }
+    
+    //拉去App Store的版本号和本地版本号对比
+    NSDictionary *infoDictionary = [[NSBundle mainBundle] infoDictionary];
+    [LTSUserDefault setObject:infoDictionary[@"CFBundleShortVersionString"] forKey:@"CFBundleShortVersionString"];
+    
+    [LTSDBManager POST:@"https://itunes.apple.com/lookup?id=1229576389" params:nil block:^(id responseObject, NSError *error) {
+        if (responseObject[@"results"]) {
+            NSArray *array = responseObject[@"results"];
+            
+            if (array.count != 0) {
+                NSDictionary *dict = array[0];
+                //去掉“.”小数点进行版本比较
+                NSString *storeVersion = [dict[@"version"] stringByReplacingOccurrencesOfString:@"." withString:@""];
+                NSString *currentVersion = [[LTSUserDefault objectForKey:@"CFBundleShortVersionString"] stringByReplacingOccurrencesOfString:@"." withString:@""];
+                //判断 当前版本号 和 App store版本号的大小
+                if (storeVersion.integerValue > currentVersion.integerValue) {
+                    self.versionData = 11;//
+                    self.storeVersion = dict[@"version"];
+
+                }else{
+                    self.versionData = 22;
+                    
+                }
+                
+                [self.tableView reloadData];
+            }
+        }
+    }];
 
 
 }
@@ -225,6 +244,23 @@
         cell.detailTextLabel.text = [NSString stringWithFormat:@"%.2fM",[_cleancache getCacheSizeAtPath:[_cleancache getCachesPath]]];
         cell.detailTextLabel.font = [UIFont systemFontOfSize:15];
 
+    }else if([cell.textLabel.text isEqualToString:@"关于"]){
+        if (self.versionData == 11) {
+            
+            //添加小红点
+            UIView *redView = [[UIView alloc] init];
+            redView.backgroundColor = [UIColor redColor];
+            [cell.contentView addSubview:redView];
+            [redView mas_makeConstraints:^(MASConstraintMaker *make) {
+                make.width.height.mas_equalTo(10);
+                make.centerY.mas_equalTo(cell.contentView.mas_centerY);
+                make.left.mas_equalTo(cell.contentView.mas_right).with.offset(-10);
+            }];
+            redView.layer.masksToBounds = YES;
+            redView.layer.cornerRadius = 5;
+        }
+
+        cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     }else{
         cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
 
@@ -289,6 +325,10 @@
     }
     if ([cell.textLabel.text isEqualToString:@"关于"]) {
         LTSAboutViewController *aboutVC = [LTSAboutViewController new];
+        aboutVC.versionData = self.versionData;
+        aboutVC.storeVersion = self.storeVersion;
+
+      
         [self.navigationController pushViewController:aboutVC animated:YES];
     }
 

@@ -121,8 +121,9 @@
     } else {//截获页面里面的链接点击
         LTSProjectDetailViewController *detailVC = [LTSProjectDetailViewController new];
         
+//        detailVC.url = [NSURL URLWithString:requestString];
         detailVC.url = [NSURL URLWithString:[requestString stringByAppendingFormat:@"?cif_account=%@",[LTSUserDefault objectForKey:@"cif_account"]]];
-        NSLog(@"detail.url:%@",detailVC.url);
+
         [self.navigationController pushViewController:detailVC animated:YES];
         
         decisionHandler(WKNavigationActionPolicyCancel);//不允许跳转

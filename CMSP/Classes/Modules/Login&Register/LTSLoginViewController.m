@@ -228,7 +228,7 @@
     //账号输入框
     self.user_tf = ({LTSCustomTextField *textField = [LTSCustomTextField textFieldWithleftImageIcon:@"icon_userLogin"];
         textField.borderType = LTSCustomTextFieldBorderTypeBottom;
-        [textField setCustomPlaceholder:@"手机号/邮箱"];
+        [textField setCustomPlaceholder:@"账号"];
         [_bigView addSubview:textField];
         [textField mas_makeConstraints:^(MASConstraintMaker *make) {
             make.top.mas_equalTo(self.accountTypeBtn.mas_bottom).with.offset(10);
@@ -241,7 +241,7 @@
     
     //密码输入框
     self.password_tf= ({LTSCustomTextField *textField = [LTSCustomTextField textFieldWithleftImageIcon:@"icon_userPassword"];
-        [textField setCustomPlaceholder:@"输入密码"];
+        [textField setCustomPlaceholder:@"密码"];
         textField.borderType = LTSCustomTextFieldBorderTypeBottom;
         textField.secureTextEntry = YES;
         [_bigView addSubview:textField];

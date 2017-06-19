@@ -7,7 +7,7 @@
 //
 
 #import "LTSMoreNoticeViewController.h"
-#import "LTSCompanyNewsCell.h"
+#import "LTSNoticeCell.h"
 #import "LTSNewsAndNoticeModel.h"
 #import "LTSNewsAndNoticeDetailViewController.h"
 #import "MJRefresh.h"
@@ -68,7 +68,7 @@
 }
 
 -(void)initData{
-    
+
     //公告数据
     [LTSDBManager POST:[kLTSDBBaseUrl stringByAppendingString:KLTSDBNewsAndNotice] params:@{@"type":@"C",@"page":[NSNumber numberWithInteger:_page],@"rows":[NSNumber numberWithInteger:_rows]} block:^(id responseObject, NSError *error) {
         if(responseObject) {
@@ -89,6 +89,18 @@
             NSArray *tempArray = responseObject[@"rows"];
             for (NSDictionary *dict in tempArray) {
                 LTSNewsAndNoticeModel *model = [LTSNewsAndNoticeModel modelWithDict:dict];
+               
+                NSArray *array = [model.context componentsSeparatedByString:@" "];
+                NSMutableString *mutableString = [[NSMutableString alloc] init];
+                for (NSString *tempString in array) {
+                    if ([tempString isEqualToString:@""]) {
+                        continue;
+                    }
+                    [mutableString appendFormat:@"    %@",tempString];
+
+                }
+                model.context = (NSString *)mutableString;
+
                 [self.noticeDatas addObject:model];
                 
             }
@@ -124,7 +136,7 @@
     //隐藏多余的cell分割线
     [_tableView setTableFooterView:[[UIView alloc] initWithFrame:CGRectZero]];
     //注册cell
-    [_tableView registerClass:[LTSCompanyNewsCell class] forCellReuseIdentifier:@"cell"];
+    [_tableView registerClass:[LTSNoticeCell class] forCellReuseIdentifier:@"cell"];
     
     //添加下拉刷新控件
     __weak typeof(self) weakSelf = self;
@@ -144,6 +156,7 @@
     _page = 0;
     _rows = 10;
     [self initData];
+
 }
 
 //上拉加载
@@ -164,10 +177,12 @@
 }
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-    LTSCompanyNewsCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell"];
+    LTSNoticeCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell"];
     //模型赋值
-    cell.model = self.noticeDatas[indexPath.row];
     
+    cell.model = self.noticeDatas[indexPath.row];
+//    cell.model.context = [cell.model.context stringByReplacingOccurrencesOfString:@" " withString:@""];
+
     return cell;
 }
 
@@ -187,6 +202,9 @@
     detailVc.detailContext = model.context;
     detailVc.detailDate = model.publicDate;
     detailVc.detailPubUser = model.publicUserName;
+    detailVc.imageString = model.imageString;
+    //公告详情大图不显示的标志
+    detailVc.tap = 100;
     detailVc.naviTitle = @"公告详情";
     [self.navigationController pushViewController:detailVc animated:YES];
 }

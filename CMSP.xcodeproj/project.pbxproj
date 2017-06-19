@@ -76,7 +76,9 @@
 		38F5AFC81DF799BA00C3B674 /* WKDelegateController.m in Sources */ = {isa = PBXBuildFile; fileRef = 38F5AFC71DF799BA00C3B674 /* WKDelegateController.m */; };
 		38F5AFD91DF8E5B900C3B674 /* LTSAboutViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 38F5AFD81DF8E5B900C3B674 /* LTSAboutViewController.m */; };
 		38F5AFDC1DF8EACE00C3B674 /* SettingHeadImageItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 38F5AFDB1DF8EACE00C3B674 /* SettingHeadImageItem.m */; };
+		50079B611EF13E9400093A1F /* LTSNoticeCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 50079B601EF13E9400093A1F /* LTSNoticeCell.m */; };
 		91BA8A34757A666F6D5E1875 /* Pods_CMSP.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 190771C116B7038805668F0D /* Pods_CMSP.framework */; };
+		C208452D1EE7FC1300244715 /* UILabel+Alignment.m in Sources */ = {isa = PBXBuildFile; fileRef = C208452C1EE7FC1300244715 /* UILabel+Alignment.m */; };
 		C21E8AE11EDE6D6A00415C51 /* LTSMessageModel.m in Sources */ = {isa = PBXBuildFile; fileRef = C21E8AE01EDE6D6A00415C51 /* LTSMessageModel.m */; };
 		C21E8AE71EDE9C9500415C51 /* LTSMoreNoticeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C21E8AE61EDE9C9500415C51 /* LTSMoreNoticeViewController.m */; };
 		C21E8AEA1EDE9CAC00415C51 /* LTSMoreNewsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C21E8AE91EDE9CAC00415C51 /* LTSMoreNewsViewController.m */; };
@@ -269,7 +271,11 @@
 		38F5AFD81DF8E5B900C3B674 /* LTSAboutViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LTSAboutViewController.m; sourceTree = "<group>"; };
 		38F5AFDA1DF8EACE00C3B674 /* SettingHeadImageItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingHeadImageItem.h; sourceTree = "<group>"; };
 		38F5AFDB1DF8EACE00C3B674 /* SettingHeadImageItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingHeadImageItem.m; sourceTree = "<group>"; };
+		50079B5F1EF13E9400093A1F /* LTSNoticeCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LTSNoticeCell.h; sourceTree = "<group>"; };
+		50079B601EF13E9400093A1F /* LTSNoticeCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LTSNoticeCell.m; sourceTree = "<group>"; };
 		9A629159B0E9C797BBD20578 /* Pods-CMSP.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CMSP.release.xcconfig"; path = "Pods/Target Support Files/Pods-CMSP/Pods-CMSP.release.xcconfig"; sourceTree = "<group>"; };
+		C208452B1EE7FC1300244715 /* UILabel+Alignment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UILabel+Alignment.h"; sourceTree = "<group>"; };
+		C208452C1EE7FC1300244715 /* UILabel+Alignment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UILabel+Alignment.m"; sourceTree = "<group>"; };
 		C21E8ADF1EDE6D6A00415C51 /* LTSMessageModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LTSMessageModel.h; sourceTree = "<group>"; };
 		C21E8AE01EDE6D6A00415C51 /* LTSMessageModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LTSMessageModel.m; sourceTree = "<group>"; };
 		C21E8AE51EDE9C9500415C51 /* LTSMoreNoticeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LTSMoreNoticeViewController.h; sourceTree = "<group>"; };
@@ -522,6 +528,8 @@
 				3870844D1DEEB52E004DBBC1 /* UIColor+Common.m */,
 				38F5AF691DF024ED00C3B674 /* UITextField+Common.h */,
 				38F5AF6A1DF024ED00C3B674 /* UITextField+Common.m */,
+				C208452B1EE7FC1300244715 /* UILabel+Alignment.h */,
+				C208452C1EE7FC1300244715 /* UILabel+Alignment.m */,
 			);
 			path = Category;
 			sourceTree = "<group>";
@@ -692,6 +700,8 @@
 			children = (
 				C2873F5A1ED2C90D0043AE43 /* LTSCompanyNewsCell.h */,
 				C2873F5B1ED2C90D0043AE43 /* LTSCompanyNewsCell.m */,
+				50079B5F1EF13E9400093A1F /* LTSNoticeCell.h */,
+				50079B601EF13E9400093A1F /* LTSNoticeCell.m */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -1131,6 +1141,7 @@
 				38F5AFC41DF6B40B00C3B674 /* NSString+Common.m in Sources */,
 				C2BE34BA1EA87D71002D399D /* LTSLogTypeTransition.m in Sources */,
 				38F5AF2D1DEFADF100C3B674 /* LTSBaseNavigationController.m in Sources */,
+				50079B611EF13E9400093A1F /* LTSNoticeCell.m in Sources */,
 				38F5AF941DF6676200C3B674 /* NSMutableString+TagReplace.m in Sources */,
 				38F5AFD91DF8E5B900C3B674 /* LTSAboutViewController.m in Sources */,
 				38F5AFC01DF6AB4700C3B674 /* SettingView.m in Sources */,
@@ -1143,6 +1154,7 @@
 				38F5AF371DEFB05900C3B674 /* LTSUser.m in Sources */,
 				387084431DEEADFB004DBBC1 /* JQCyclingCycleAnimation.m in Sources */,
 				C2ABAFC11E9CDEE00066588C /* LTSChangeInformationViewController.m in Sources */,
+				C208452D1EE7FC1300244715 /* UILabel+Alignment.m in Sources */,
 				38F5AFDC1DF8EACE00C3B674 /* SettingHeadImageItem.m in Sources */,
 				38F5AF931DF6676200C3B674 /* WPTappableLabel.m in Sources */,
 				38F5AF6E1DF6479400C3B674 /* UIButton+Style.m in Sources */,

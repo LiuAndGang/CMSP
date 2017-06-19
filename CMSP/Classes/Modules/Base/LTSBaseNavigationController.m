@@ -39,7 +39,7 @@
     
     [ self.navigationBar setBackgroundImage:[UIImage imageWithColor:color]  forBarPosition:UIBarPositionAny barMetrics:UIBarMetricsDefault];
     
-    [self.navigationBar setTintColor:[UIColor whiteColor]];
+    [self.navigationBar setTintColor:[UIColor greenColor]];
     // Do any additional setup after loading the view.
 }
 

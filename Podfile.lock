@@ -14,14 +14,15 @@ PODS:
   - AFNetworking/Serialization (3.1.0)
   - AFNetworking/UIKit (3.1.0):
     - AFNetworking/NSURLSession
-  - CocoaAsyncSocket (7.6.0)
-  - CocoaLumberjack (3.1.0):
-    - CocoaLumberjack/Default (= 3.1.0)
-    - CocoaLumberjack/Extensions (= 3.1.0)
-  - CocoaLumberjack/Default (3.1.0)
-  - CocoaLumberjack/Extensions (3.1.0):
+  - CocoaAsyncSocket (7.6.1)
+  - CocoaLumberjack (3.2.0):
+    - CocoaLumberjack/Default (= 3.2.0)
+    - CocoaLumberjack/Extensions (= 3.2.0)
+  - CocoaLumberjack/Default (3.2.0)
+  - CocoaLumberjack/Extensions (3.2.0):
     - CocoaLumberjack/Default
-  - IQKeyboardManager (4.0.9)
+  - FLEX (2.4.0)
+  - IQKeyboardManager (4.0.10)
   - KissXML (5.2.0)
   - libidn (1.33)
   - Masonry (1.0.2)
@@ -49,6 +50,7 @@ PODS:
 
 DEPENDENCIES:
   - AFNetworking
+  - FLEX
   - IQKeyboardManager
   - Masonry
   - MBProgressHUD
@@ -72,9 +74,10 @@ CHECKOUT OPTIONS:
 
 SPEC CHECKSUMS:
   AFNetworking: 5e0e199f73d8626b11e79750991f5d173d1f8b67
-  CocoaAsyncSocket: b9d5589f07baf9de8f34cc25abd4fcba28f13805
-  CocoaLumberjack: 8311463ddf9ee86a06ef92a071dd656c89244500
-  IQKeyboardManager: 322c7405df3eb5f7e50dede32ea937bf3d4364e0
+  CocoaAsyncSocket: 7eadd3f59e1a6c84e2aefc93e9ff7b55156fe174
+  CocoaLumberjack: 9b4aed7073d242f29cc2f62068d995faf67f703a
+  FLEX: bd1a39e55b56bb413b6f1b34b3c10a0dc44ef079
+  IQKeyboardManager: 593ee99b88381f4b9ccb22bd680f22606351bd41
   KissXML: 1c1eeeb6b94e4522cd2f2373e5d0d03c9227738f
   libidn: 90fc1a62b60288dcf543f13f4ebca913f17d829f
   Masonry: 7c429b56da9d4ee0bbb3ed77a5ea710d6a5df39e
@@ -87,6 +90,6 @@ SPEC CHECKSUMS:
   WebViewJavascriptBridge: 791ee0e26d1bf15efe5fb7fb9666a71a19b89d77
   XMPPFramework: 164ed2ce99e3eb2f358e9f5ca5eeaa8d75339fde
 
-PODFILE CHECKSUM: d195c4450e3fc56b7ec519aeda89fd1644fa2e5a
+PODFILE CHECKSUM: 4a52e5c3a9d37a0a26247fffeea1ca22573da3ec
 
 COCOAPODS: 1.2.0

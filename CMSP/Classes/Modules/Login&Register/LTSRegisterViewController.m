@@ -26,6 +26,7 @@
     [super viewDidLoad];
     self.title = @"注册";
 }
+
 - (void)initUI{
     self.segmentView = [[LTSSegmentView alloc]initWithFrame:self.view.bounds];
     [self.view addSubview:self.segmentView];

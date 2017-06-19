@@ -22,6 +22,8 @@
 /**新闻图片*/
 @property(nonatomic,copy) NSString * imageString;
 
+
+
 +(LTSNewsAndNoticeModel *)modelWithDict:(NSDictionary *)dict;
 
 @end

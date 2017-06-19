@@ -15,7 +15,6 @@
 @property (nonatomic,strong) NSArray *dataSource;
 @property (nonatomic,strong) UIButton *backBtn;
 
-
 @end
 
 @implementation LTSAboutViewController
@@ -29,11 +28,20 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.title = @"关于";
-    // Do any additional setup after loading the view.
+
+    
+    
 }
 -(void)initData
 {
-    _dataSource = @[@"公司介绍",@"版本检测",@"客服热线"];
+    if (self.versionData == 11) {
+        _dataSource = @[@"公司介绍",@"版本检测",@"客服热线"];
+
+    }else{
+        _dataSource = @[@"公司介绍",@"客服热线"];
+    }
+    
+
 }
 
 
@@ -111,11 +119,32 @@
     if ([cell.textLabel.text isEqualToString:@"客服热线"]) {
         cell.detailTextLabel.text = @"020-83063218";
         cell.detailTextLabel.textColor = HexColor(@"#00b0ec");
+        cell.detailTextLabel.font = cell.textLabel.font;
     }
     if ([cell.textLabel.text isEqualToString:@"版本检测"]) {
-        NSDictionary *infoDictionary = [[NSBundle mainBundle] infoDictionary];
-        cell.detailTextLabel.text = infoDictionary[@"CFBundleShortVersionString"];
-        [LTSUserDefault setObject:infoDictionary[@"CFBundleShortVersionString"] forKey:@"CFBundleShortVersionString"];
+       
+        
+        if (self.versionData == 11) {
+            cell.detailTextLabel.text = [NSString stringWithFormat:@"发现新版本%@",self.storeVersion];
+            
+            UIView *redView = [[UIView alloc] init];
+            redView.backgroundColor = [UIColor redColor];
+            [cell.contentView addSubview:redView];
+            [redView mas_makeConstraints:^(MASConstraintMaker *make) {
+                make.width.height.mas_equalTo(10);
+                make.centerY.mas_equalTo(cell.contentView.mas_centerY);
+                make.left.mas_equalTo(cell.textLabel.mas_right).with.offset(10);
+            }];
+            redView.layer.masksToBounds = YES;
+            redView.layer.cornerRadius = 5;
+
+        }else if(self.versionData == 22){
+            cell.detailTextLabel.text = [NSString stringWithFormat:@"已是最新版本%@",self.storeVersion];
+
+        }
+
+        cell.detailTextLabel.font = cell.textLabel.font;
+
     }
     return cell;
 }
@@ -144,77 +173,38 @@
         [self.navigationController pushViewController:companyVc animated:YES];
     }
     if ([cell.textLabel.text isEqualToString:@"版本检测"]) {
-        [LTSDBManager POST:@"https://itunes.apple.com/lookup?id=1229576389" params:nil block:^(id responseObject, NSError *error) {
-            if (responseObject[@"results"]) {
-                NSArray *array = responseObject[@"results"];
+        
+        
+        if (self.versionData == 11) {
+            UIAlertController *alertVc = [UIAlertController alertControllerWithTitle:@"提示" message:@"发现新版本，是否前往更新?" preferredStyle:UIAlertControllerStyleAlert];
+            UIAlertAction *sure = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+                NSString *urlString = @"https://itunes.apple.com/cn/app/客户营销系统/id1229576389?mt=8";
+                NSString *encodString = [urlString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
                 
-                if (array.count != 0) {
-                    NSDictionary *dict = array[0];
-                    //去掉“.”小数点进行版本比较
-                    NSString *storeVersion = [dict[@"version"] stringByReplacingOccurrencesOfString:@"." withString:@""];
-                    NSString *currentVersion = [[LTSUserDefault objectForKey:@"CFBundleShortVersionString"] stringByReplacingOccurrencesOfString:@"." withString:@""];
-                    //判断 当前版本号 和 App store版本号的大小
-                    if (storeVersion.integerValue > currentVersion.integerValue) {
-                        
-                        UIAlertController *alertVc = [UIAlertController alertControllerWithTitle:@"提示" message:@"发现新版本，是否前往更新?" preferredStyle:UIAlertControllerStyleAlert];
-                        UIAlertAction *sure = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-                            NSString *urlString = @"https://itunes.apple.com/cn/app/客户营销系统/id1229576389?mt=8";
-                            NSString *encodString = [urlString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-                            
-                            NSURL *url = [NSURL URLWithString:encodString];
-                            if ([[UIApplication sharedApplication] canOpenURL:url]) {
-                               [[UIApplication sharedApplication] openURL:url];
-                            }
-                            
-                            
-                        }];
-                        UIAlertAction *cancel = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
-                            
-                        }];
-                        [alertVc addAction:sure];
-                        [alertVc addAction:cancel];
-                        [self presentViewController:alertVc animated:YES completion:nil];
-                        
-                        
-                        
-//                        NSLog(@"Appstore：%ld",storeVersion.integerValue);
-//                        NSLog(@"currentVersion：%ld", currentVersion.integerValue);
-                        
-                    }else{
-//                        NSLog(@"currentVersion：%ld", currentVersion.integerValue);
-                        
-                        [ActivityHub ShowHub:@"当前已是最新版本"];
-                    }
-
+                NSURL *url = [NSURL URLWithString:encodString];
+                if ([[UIApplication sharedApplication] canOpenURL:url]) {
+                    [[UIApplication sharedApplication] openURL:url];
                 }
-            }
-        }];
+                
+                
+            }];
+            UIAlertAction *cancel = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+                
+            }];
+            [alertVc addAction:sure];
+            [alertVc addAction:cancel];
+            [self presentViewController:alertVc animated:YES completion:nil];
+        
+        }else if (self.versionData == 22){
+            [ActivityHub ShowHub:@"当前已是最新版本"];
+
+        }
+
     }
     
 };
 
-//- (void)addTableViewGroup1{
-//    SettingGroup *group = [self.tableView addGroup];
-//    SettingItem *item1 = [SettingArrowItem itemWithTitle:@"公司介绍"];
-//    item1.operation = ^(id data){
-//        
-//    };
-//
-//    
-//    SettingItem *item2 = [SettingArrowItem itemWithTitle:@"版本检测"];
-//    item2.operation = ^(id data){
-//        
-//    };
-//    
-//    SettingItem *item3 = [SettingArrowItem itemWithTitle:@"客户热线"];
-//    item3.subtitle = @"020-55555534";
-//    item3.subtitleColor = HexColor(@"#00b0ec");
-//    item3.operation = ^(id data){
-//        
-//    };
-//    group.items  = @[item1,item2,item3];
-//
-//}
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.

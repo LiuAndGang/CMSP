@@ -186,6 +186,7 @@
     detailVc.detailContext = model.context;
     detailVc.detailDate = model.publicDate;
     detailVc.detailPubUser = model.publicUserName;
+    detailVc.imageString = model.imageString;
     detailVc.naviTitle = @"新闻详情";
     [self.navigationController pushViewController:detailVc animated:YES];
 

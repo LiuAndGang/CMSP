@@ -87,7 +87,9 @@
         
         UIViewController *vc = [NSClassFromString(dict[kClassKey]) new];
         vc.title = dict[kTitleKey];
+        
         self.tabBar.tintColor = OrangeColor;
+        
         LTSBaseNavigationController *nav = [[LTSBaseNavigationController alloc] initWithRootViewController:vc];
         if ([nav.topViewController.title isEqualToString:@"项目"]) {
             if ([[LTSUserDefault objectForKey:@"organ_flag"] isEqual:@0] || ![LTSUserDefault objectForKey:Login_Token]) {
@@ -98,6 +100,8 @@
             }
         }
         
+        
+        
         UITabBarItem *item = nav.tabBarItem;
         item.title = dict[kTitleKey];
         item.image = [UIImage imageNamed:dict[kImgKey]];
@@ -106,6 +110,8 @@
         [item setTitleTextAttributes:@{NSForegroundColorAttributeName : OrangeColor} forState:UIControlStateSelected];
         [self addChildViewController:nav];
     }];
+    
+    
     
     self.tabBar.backgroundColor = [UIColor whiteColor];
     

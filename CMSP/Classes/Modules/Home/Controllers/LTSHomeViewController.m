@@ -112,6 +112,8 @@
             LTSNewsAndNoticeModel *model = _noticeDatas[0];
             //去掉左右两边的空格和换行符
             _noticeContentLabel.text = [model.mainTitle stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+//            _noticeContentLabel.text = [model.mainTitle stringByReplacingOccurrencesOfString:@"\r\n" withString:@""];
+
             NSLog(@"noticeData数组数量：%ld",self.noticeDatas.count);
         }else{
             NSLog(@"error:%@",error);
@@ -125,7 +127,9 @@
             NSArray *tempArray = responseObject[@"rows"];
             for (NSDictionary *dict in tempArray) {
                 LTSNewsAndNoticeModel *model = [LTSNewsAndNoticeModel modelWithDict:dict];
+                
                 [self.newsDatas addObject:model];
+                
                 
             }
             [_tableView reloadData];
@@ -368,11 +372,11 @@
     [messageView addGestureRecognizer:messageTap];
 
     //个人登录和随便看看隐藏 消息 控件
-    if ([[LTSUserDefault objectForKey:@"organ_flag"] isEqual:@0] || ![LTSUserDefault objectForKey:Login_Token]) {
+//    if ([[LTSUserDefault objectForKey:@"organ_flag"] isEqual:@0] || ![LTSUserDefault objectForKey:Login_Token]) {
         [messageView removeFromSuperview];
         baseView.frame = CGRectMake(0, 0, SCREEN_W, CycleScrollViewHeight+44+10*3+100+44*1);
 
-    }
+//    }
     
     
     //公司新闻
@@ -492,6 +496,7 @@
     detailVc.detailContext = model.context;
     detailVc.detailDate = model.publicDate;
     detailVc.detailPubUser = model.publicUserName;
+    detailVc.imageString  = model.imageString;
     detailVc.naviTitle = @"新闻详情";
     [self.navigationController pushViewController:detailVc animated:YES];
 }
